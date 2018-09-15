@@ -15,13 +15,13 @@ data DesiredProperties = DesiredProperties
   , _desiredPropertiesDailyReadVolume :: Percentage
   , _desiredPropertiesRepairWithin :: TimeHorizon
   , _desiredPropertiesRepairTimes :: BusinessHours
-  , _desiredPropertiesTapeBackup :: YesNo
+  , _desiredPropertiesTapeBackup :: Bool
   , _desiredPropertiesBackupFrequency :: TimeHorizon
   , _desiredPropertiesBackupHistory :: TimeHorizon
   , _desiredPropertiesUnavailability :: Unavailability
   , _desiredPropertiesSecurityLevel :: SecurityLevel
   , _desiredPropertiesWhoCanAccess :: AccessGroup
-  , _desiredPropertiesSharedInfrastracture :: YesNo
+  , _desiredPropertiesSharedInfrastracture :: Bool
   } deriving (Show, Read, Eq)
 
 makeFields ''DesiredProperties
