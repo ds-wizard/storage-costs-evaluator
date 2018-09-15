@@ -1,6 +1,8 @@
 module Model.JSON.Inputs where
 
 import Data.Aeson
+import Data.Default
+import Data.Maybe
 import Control.Monad
 
 import Model.Inputs
@@ -16,7 +18,7 @@ instance ToJSON DesiredProperties where
       , "dailyChanges" .= _desiredPropertiesDailyChanges
       , "contentType" .= show _desiredPropertiesContentType
       , "accessType" .= show _desiredPropertiesAccessType
-      , "readVolume" .= _desiredPropertiesDailyReadVolume
+      , "dailyReadVolume" .= _desiredPropertiesDailyReadVolume
       , "repairWithin" .= show _desiredPropertiesRepairWithin
       , "repairTimes" .= show _desiredPropertiesRepairTimes
       , "tapeBackup" .= _desiredPropertiesTapeBackup
@@ -35,7 +37,7 @@ instance FromJSON DesiredProperties where
     _desiredPropertiesDailyChanges <- o .: "dailyChanges"
     _desiredPropertiesContentType <- parseWithRead o "contentType"
     _desiredPropertiesAccessType <- parseWithRead o "accessType"
-    _desiredPropertiesDailyReadVolume <- o .: "readVolume"
+    _desiredPropertiesDailyReadVolume <- o .: "dailyReadVolume"
     _desiredPropertiesRepairWithin <- parseWithRead o "repairWithin"
     _desiredPropertiesRepairTimes <- parseWithRead o "repairTimes"
     _desiredPropertiesTapeBackup <- o .: "tapeBackup"
@@ -99,4 +101,18 @@ instance FromJSON ConfigVariables where
     _configVariablesNetworkPortRent <- o .: "networkPortRentCost"
     _configVariablesUPS <- o .: "upsCostPerWattMonth"
     return ConfigVariables {..}
+  parseJSON _ = mzero
+
+instance ToJSON Inputs where
+  toJSON Inputs {..} =
+    object
+      [ "desiredProperties" .= _inputsDesiredProperties
+      , "configVariables" .= _inputsConfigVariables
+      ]
+
+instance FromJSON Inputs where
+  parseJSON (Object o) = do
+    _inputsDesiredProperties <- o .: "desiredProperties"
+    _inputsConfigVariables <- fromMaybe def <$> o .:? "configVariables"
+    return Inputs {..}
   parseJSON _ = mzero

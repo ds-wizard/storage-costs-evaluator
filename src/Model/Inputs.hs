@@ -76,3 +76,11 @@ instance Default ConfigVariables where
     , _configVariablesNetworkPortRent = 10 -- Euro/month
     , _configVariablesUPS = 0.2 -- Euro/Watt/month
     }
+
+
+data Inputs = Inputs
+  { _inputsDesiredProperties :: DesiredProperties
+  , _inputsConfigVariables :: ConfigVariables
+  } deriving (Show, Read, Eq)
+
+makeFields ''Inputs

@@ -24,6 +24,7 @@ dependencies:
 - aeson
 - data-default
 - lens
+- scotty
 - text
 
 library:
@@ -38,7 +39,7 @@ library:
   - RecordWildCards
 
 executables:
-  storage-costs-evaluator-exe:
+  storage-costs-evaluator:
     main:                Main.hs
     source-dirs:         app
     ghc-options:

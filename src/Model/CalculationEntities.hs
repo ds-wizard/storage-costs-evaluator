@@ -96,3 +96,10 @@ data StorageCosts = StorageCosts
   } deriving (Show, Read, Eq)
 
 makeFields ''StorageCosts
+
+data Result = Result
+  { _resultInputs :: Inputs
+  , _resultStorageCosts :: StorageCosts
+  } deriving (Show, Read, Eq)
+
+makeFields ''Result

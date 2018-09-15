@@ -1,9 +1,10 @@
 module Model.JSON.CalculationEntities where
 
-import Data.Aeson
+import Data.Aeson hiding (Result (..))
 import Control.Monad
 
 import Model.CalculationEntities
+import Model.JSON.Inputs
 import Model.JSON.Util
 
 
@@ -97,4 +98,11 @@ instance ToJSON StorageCosts where
       , "powerSupplies" .= _storageCostsStorageUninterruptiblePowerSupplies
       , "total" .= _storageCostsTotal
       , "perYear" .= _storageCostsPerYear
+      ]
+
+instance ToJSON Result where
+  toJSON Result {..} =
+    object
+      [ "inputs" .= _resultInputs
+      , "storageCosts" .= _resultStorageCosts
       ]

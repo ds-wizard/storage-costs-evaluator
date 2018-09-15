@@ -10,6 +10,11 @@ import Model.Inputs
 doubleCeiling = fromIntegral . ceiling
 
 
+calculateFromInput :: Inputs -> Result
+calculateFromInput i = Result i sc
+  where sc = calculateCosts (i ^. configVariables) (i ^. desiredProperties)
+
+
 calculateCosts :: ConfigVariables -> DesiredProperties -> StorageCosts
 calculateCosts cv dp = StorageCosts
   { _storageCostsStorageDrives = StorageDrives
