@@ -10,11 +10,13 @@ import Model.JSON.Inputs
 import Model.JSON.CalculationEntities
 
 
+
 routes :: ScottyM ()
 routes = do
-  get "/" $ do
-    text "Storage Costs Evaluator service"
-    text "TODO: description (& form?)"
+  get "/" $
+    file "./static/index.html"
+  get "/script.js" $
+    file "./static/script.js"
   post "/" $ do
     inputs <- jsonData :: ActionM Inputs
     let result = calculateFromInput inputs

@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Marek Suchánek">
+
+    <title>Storage Cost Evaluator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+      .tab-pane { padding-top: 0.4em; }
+    </style>
+  </head>
+
+  <body>
+    <main role="main" class="container">
+      <div class="container">
+        <h1>Storage Cost Evaluator</h1>
+        <p class="lead">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculations were made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2018.</p>
+      </div>
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="inputs-tab" data-toggle="tab" href="#inputs" role="tab">Inputs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="result-tab" data-toggle="tab" href="#result" role="tab">Result</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="apidoc-tab" data-toggle="tab" href="#apidoc" role="tab">API</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="inputs" role="tabpanel">
+          <h2>Desired properties</h2>
+          <form id="dpForm">
+            <div class="row">
+              <div class="col-md">
+                <div class="form-group">
+                  <label for="dpVolumeValue">Volume</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="dpVolumeValue" min="0" value="0">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" id="dpVolumeUnit">TB</button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#" id="dpVolumeUnitChange">PB</a>
+                        <a class="dropdown-item" href="#" id="dpVolumeUnitChange">TB</a>
+                        <a class="dropdown-item" href="#" id="dpVolumeUnitChange">GB</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpLifetime">Lifetime</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="dpLifetime" min="0" value="0">
+                    <div class="input-group-append">
+                       <span class="input-group-text">years</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpDailyChanges">Daily changes</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="dpDailyChanges" min="0" max="100" value="10">
+                    <div class="input-group-append">
+                       <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpContentType">Content type</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpContentType">
+                      <option value="ManySmallFiles">Many small files</option>
+                      <option value="FewLargeFiles">Few large files</option>
+                      <option value="Database">Database</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpAccessType">Access type</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpAccessType">
+                      <option value="OneFileOnRequest">One file on request</option>
+                      <option value="RemoteFiles">Remote files</option>
+                      <option value="DataBase">Database</option>
+                      <option value="WebSite">Website</option>
+                      <option value="CalculationServer">Calculation server</option>
+                      <option value="HighPerformance">High performance</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpDailyReadVolume">Daily read volume</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="dpDailyReadVolume" min="0" max="100" value="10">
+                    <div class="input-group-append">
+                       <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpRepairWithin">Repair within</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpRepairWithin">
+                      <option value="Seconds">Seconds</option>
+                      <option value="Minutes">Minutes</option>
+                      <option value="Hours" selected>Hours</option>
+                      <option value="Days">Days</option>
+                      <option value="Weeks">Weeks</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpRepairTimes">Repair times</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpRepairTimes">
+                      <option value="D5H8">8/5</option>
+                      <option value="D5H10">10/5</option>
+                      <option value="D7H24" selected>24/7</option>
+                    </select>
+                  </div>
+                  <small id="dpRepairTimesHelp" class="form-text text-muted">H/D = H hours per day, D days per week.</small>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-group">
+                  <label for="dpTapeBackup">Tape backup</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpTapeBackup">
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpBackupFrequency">Backup frequency</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpBackupFrequency">
+                      <option value="Hours">Hours</option>
+                      <option value="Days" selected>Days</option>
+                      <option value="Weeks">Weeks</option>
+                      <option value="Months">Months</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpBackupHistory">Backup history</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpBackupHistory">
+                      <option value="Hours">Hours</option>
+                      <option value="Days">Days</option>
+                      <option value="Weeks">Weeks</option>
+                      <option value="Months" selected>Months</option>
+                      <option value="Years">Years</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpUnavailability">Unavailability (per year)</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpUnavailability">
+                      <option value="Hour">Hour</option>
+                      <option value="Day">Day</option>
+                      <option value="Week">Week</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpSecurityLevel">Security level</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpSecurityLevel">
+                      <option value="OpenData">Open data</option>
+                      <option value="ClosedData">Closed data</option>
+                      <option value="PrivacySensitive">Privacy sensitive</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpWhoCanAccess">Who can access</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpWhoCanAccess">
+                      <option value="OnlyMe">Only me</option>
+                      <option value="LocalCollaborators">Local collaborators</option>
+                      <option value="AuthorizedPeople">Authorized people</option>
+                      <option value="OpenAccess">Open access</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dpSharedInfrastracture">Shared infrastructure</label>
+                  <div class="input-group">
+                    <select class="custom-select" id="dpSharedInfrastracture">
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="btnCalculate">Calculate</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <hr>
+          <h2>Configuration variables</h2>
+          <form id="dpForm">
+            <div class="row">
+              <div class="col-md">
+                <div class="form-group">
+                  <label for="cvHDDCost">HDD cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvHDDCost" min="0" value="30">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€ / TB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvHDDSize">HDD size</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvHDDSize" min="0" value="10">
+                    <div class="input-group-append">
+                       <span class="input-group-text">TB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvHDDPower">HDD power consumption</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvHDDPower" min="0" value="1.5">
+                    <div class="input-group-append">
+                       <span class="input-group-text">Watt / TB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvElectricityCost">Electricity cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvElectricityCost" min="0" value="0.14">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€ / kWh</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvPowerEfficiency">Power efficiency</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvPowerEfficiency" min="0" max="100" value="70">
+                    <div class="input-group-append">
+                       <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvStorageServer">Storage server cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvStorageServer" min="0" value="5000">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvStorageRack">Storage rack cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvStorageRack" min="0" value="2000">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€ / year</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvServerPower">Server power consumption</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvServerPower" min="0" value="200">
+                    <div class="input-group-append">
+                       <span class="input-group-text">Watt</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvLifetimeHDD">Lifetime HDD</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvLifetimeHDD" min="0" value="3">
+                    <div class="input-group-append">
+                       <span class="input-group-text">years</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvLifetimeServer">Lifetime server</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvLifetimeServer" min="0" value="5">
+                    <div class="input-group-append">
+                       <span class="input-group-text">years</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvUPS">UPS cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvUPS" min="0" value="0.2">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€ / Watt / month</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md">
+                <div class="form-group">
+                  <label for="cvTapeSpeed">Tape speed</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvTapeSpeed" min="0" value="432">
+                    <div class="input-group-append">
+                       <span class="input-group-text">GB / hour</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvTapeCapacity">Tape capacity</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvTapeCapacity" min="0" value="15">
+                    <div class="input-group-append">
+                       <span class="input-group-text">TB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvTapeCost">Tape cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvTapeCost" min="0" value="150">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvTapeDriveCost">Tape drive cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvTapeDriveCost" min="0" value="3000">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvTapeRobotCost">Tape robot cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvTapeRobotCost" min="0" value="5000">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvCostMHR">Cost of 1 manhour</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvCostMHR" min="0" value="70">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvNetworkCost">Network cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvNetworkCost" min="0" value="0.5">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€ / TB</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvNetworkPortRent">Network port rent cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvNetworkPortRent" min="0" value="10">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€ / month</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvFirewallCost">Firewall cost</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvFirewallCost" min="0" value="1000">
+                    <div class="input-group-append">
+                       <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cvFirewallMaintenance">Firewall maintenance</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="cvFirewallMaintenance" min="0" value="0.1">
+                    <div class="input-group-append">
+                       <span class="input-group-text">hours / month</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="tab-pane fade" id="result" role="tabpanel">
+          <p>Currently this provides only plain JSON output ...</p>
+          <pre id="resultJSON">Press "Calculate" on Inputs tab</pre>
+        </div>
+        <div class="tab-pane fade" id="apidoc" role="tabpanel">
+          <p>The API is very simple, it has only 1 POST endpoint on <code>/</code> that expects JSON:</p>
+
+          <pre>
+{
+  "desiredProperties": {
+    "volume": {"volumeValue": 7, "volumeUnit": "TB"},
+    "lifetime": 10,
+    "dailyChanges": 0.2,
+    "contentType": "FewLargeFiles",
+    "accessType": "RemoteFiles",
+    "dailyReadVolume": 0.3,
+    "repairWithin": "Hours",
+    "repairTimes": "D7H24",
+    "tapeBackup": true,
+    "backupFrequency": "Days",
+    "backupHistory": "Months",
+    "unavailability": "Week",
+    "securityLevel": "OpenData",
+    "whoCanAccess": "OpenAccess",
+    "sharedInfastructure": false
+  }
+  "configVariables": { ... } // optional
+}
+          </pre>
+
+          <p>For details visit code or use this simple form to explore details ...</p>
+        </div>
+      </div>
+
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="script.js" type="text/javascript"></script>
+  </body>
+</html>
