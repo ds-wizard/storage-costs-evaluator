@@ -1,17 +1,72 @@
 sudo: false
-language: c
+
+stages:
+  - build
+  - tag
+
+env:
+  - PRIVATE_IMAGE="$REGISTRY/elixir/storage-costs-evaluator" IMAGE="datastewardshipwizard/storage-costs-evaluator" IMAGE_TAG="$PRIVATE_IMAGE:$TRAVIS_COMMIT" IMAGE_TAG_DEVELOP="$IMAGE:develop" IMAGE_TAG_LATEST="$IMAGE:latest"
+
 cache:
   directories:
-    - ~/.stack
-addons:
-  apt:
-    packages:
-      - libgmp-dev
-before_install:
+  - $HOME/.stack
+  - $HOME/.stack-work
+
+install:
+  # Download and unpack the stack executable
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
-  - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
-install:
-  - stack --no-terminal --install-ghc build --only-dependencies
-script:
-  - stack --no-terminal build
+  - travis_retry curl -L https://github.com/commercialhaskell/stack/releases/download/v1.6.5/stack-1.6.5-linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+  # Configure stack to use the system GHC installation
+  - stack config set system-ghc --global true
+  - export PATH=/opt/ghc/ghc-8.4.3/bin:$PATH
+
+before_script:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" "$REGISTRY"
+
+jobs:
+  include:
+    - stage: build
+      script:
+        # Build and Test Application
+        - stack --no-terminal --skip-ghc-check test
+        # Build Docker Image
+        - docker pull $IMAGE_TAG_LATEST
+        - docker build --pull --cache-from $IMAGE_TAG_LATEST -t $IMAGE_TAG .
+        - docker push $IMAGE_TAG
+
+    - stage: tag
+      if: (branch = develop) AND (NOT (type IN (pull_request)))
+      before_install: false
+      script:
+        - docker pull $IMAGE_TAG
+        - docker image tag $IMAGE_TAG $IMAGE_TAG_DEVELOP
+        - docker push $IMAGE_TAG_DEVELOP
+
+    - stage: tag
+      if: (branch = master) AND (NOT (type IN (pull_request)))
+      before_install: false
+      script:
+        - docker pull $IMAGE_TAG
+        - docker image tag $IMAGE_TAG $IMAGE_TAG_LATEST
+        - docker push $IMAGE_TAG_LATEST
+
+    - stage: tag
+      if: tag =~ ^v
+      before_install: false
+      env:
+        - PRIVATE_IMAGE="$REGISTRY/elixir/storage-costs-evaluator"
+        - IMAGE="datastewardshipwizard/storage-costs-evaluator"
+        - IMAGE_TAG="$PRIVATE_IMAGE:$TRAVIS_COMMIT"
+        - IMAGE_TAG_MAJOR="$IMAGE:"`echo $TRAVIS_TAG | sed -E "s/v(.*)\..*\..*/\1/g"`
+        - IMAGE_TAG_MINOR="$IMAGE:"`echo $TRAVIS_TAG | sed -E "s/v(.*)\..*/\1/g"`
+        - IMAGE_TAG_PATCH="$IMAGE:"`echo $TRAVIS_TAG | sed -E "s/v//g"`
+      script:
+        - docker pull $IMAGE_TAG
+        - docker image tag $IMAGE_TAG $IMAGE_TAG_MAJOR
+        - docker push $IMAGE_TAG_MAJOR
+        - docker image tag $IMAGE_TAG $IMAGE_TAG_MINOR
+        - docker push $IMAGE_TAG_MINOR
+        - docker image tag $IMAGE_TAG $IMAGE_TAG_PATCH
+        - docker push $IMAGE_TAG_PATCH
