@@ -97,7 +97,7 @@ calculateCosts cv dp = StorageCosts
     ssRacksCosts = ssRacks * (cv ^. storageRack) * (dp ^. lifetime) * (if (dp ^. securityLevel) == PrivacySensitive then 2 else 1)
     ssPowerCosts = ssServers * (cv ^. electricityCost) * whTokWHperYear (cv ^. serverPower) * (dp ^. lifetime) / (cv ^. powerEfficiency)
     nFirewalls = (dp ^. securityLevel) == PrivacySensitive
-    nBandwidthBackup = tbDailyBackup * (sdRedundancy - 1 + (if (dp ^. tapeBackup) then 1 else 0))
+    nBandwidthBackup = tbDailyBackup * (sdRedundancy - 1 + (if dp ^. tapeBackup then 1 else 0))
     nBandwidthOut = (dp ^. dailyReadVolume) * sdVolume
     nNetworkPorts = ((if ssShared then 0 else max sdRedundancy ssServers * (cv ^. networkPortRent)) + (if tbSharedTape then 0 else 1)) * 12 * (dp ^. lifetime)
     nBandwidthCosts = (nBandwidthBackup + nBandwidthOut) * (cv ^. networkCost) * 365 * (dp ^. lifetime)
@@ -117,8 +117,8 @@ calculateCosts cv dp = StorageCosts
     tbTapeOperator = (if tbDailyBackup > 0 then (dp ^. lifetime) * 200 * 0.05 else 0) *
                      (if tbTapeRobot then 1 else tbDrives) -- Q: 200? 0.05?
     tbNeedTapeIndex = tbTapes > 5 -- Q: why 5?
-    tbTotalTapeCosts = if (dp ^. tapeBackup) then tbTapes * (cv ^. tapeCost) else 0
-    tbTotalDriveCosts = if (dp ^. tapeBackup) then tbDrives * (cv ^. tapeDriveCost) else 0
+    tbTotalTapeCosts = if dp ^. tapeBackup then tbTapes * (cv ^. tapeCost) else 0
+    tbTotalDriveCosts = if dp ^. tapeBackup then tbDrives * (cv ^. tapeDriveCost) else 0
     tbTotalRobotCosts = if tbTapeRobot then cv ^. tapeRobotCost else 0
     tbOperatorCosts = tbTapeOperator * (cv ^. costMHR)
     sOperator = ssDrives * 0.1 + ssServers * 2 + ssRacks * 4 + tbDrives * 5 + 8
