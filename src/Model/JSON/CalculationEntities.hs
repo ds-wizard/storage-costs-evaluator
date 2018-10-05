@@ -11,7 +11,7 @@ import Model.JSON.Util
 instance ToJSON StorageDrives where
   toJSON StorageDrives {..} =
     object
-      [ "drivesVolume" .= _storageDrivesVolume
+      [ "usableVolume" .= _storageDrivesUsableVolume
       , "backup" .= _storageDrivesBackup
       , "redundancy" .= _storageDrivesRedundancy
       , "rawVolume" .= _storageDrivesRawVolume
@@ -76,8 +76,8 @@ instance ToJSON Setup where
 instance ToJSON IncidentResponse where
   toJSON IncidentResponse {..} =
     object
-      [ "frequency" .= _indicentResponseFrequency
-      , "operatorCosts" .= _indicentResponseOperatorCosts
+      [ "frequency" .= _incidentResponseFrequency
+      , "operatorCosts" .= _incidentResponseOperatorCosts
       ]
 
 instance ToJSON UninterruptiblePowerSupplies where

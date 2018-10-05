@@ -18,7 +18,7 @@ calculateFromInput i = Result i sc
 calculateCosts :: ConfigVariables -> DesiredProperties -> StorageCosts
 calculateCosts cv dp = StorageCosts
   { _storageCostsStorageDrives = StorageDrives
-    { _storageDrivesVolume = sdVolume
+    { _storageDrivesUsableVolume = sdVolume
     , _storageDrivesBackup = sdBackup
     , _storageDrivesRedundancy = sdRedundancy
     , _storageDrivesRawVolume = sdRawVolume
@@ -68,8 +68,8 @@ calculateCosts cv dp = StorageCosts
     , _setupOperatorCosts = sOperatorCosts
     }
   , _storageCostsIncidentResponse = IncidentResponse
-    { _indicentResponseFrequency = irFrequency
-    , _indicentResponseOperatorCosts = irOperatorCosts
+    { _incidentResponseFrequency = irFrequency
+    , _incidentResponseOperatorCosts = irOperatorCosts
     }
   , _storageCostsStorageUninterruptiblePowerSupplies = UninterruptiblePowerSupplies
     { _uninterruptiblePowerSuppliesTotalCosts = upsTotalCosts
