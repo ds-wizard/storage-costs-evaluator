@@ -1,8 +1,10 @@
 module Application
     ( runServer
+    , app
     ) where
 
 import Web.Scotty
+import Network.Wai (Application)
 
 import Model.Calculation (calculateFromInput)
 import Model.Inputs
@@ -21,6 +23,11 @@ routes = do
     inputs <- jsonData :: ActionM Inputs
     let result = calculateFromInput inputs
     json result
+
+
+app :: IO Application
+app = scottyApp routes
+
 
 runServer :: Int -> IO ()
 runServer port = scotty port routes

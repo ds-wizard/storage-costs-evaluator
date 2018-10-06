@@ -6,7 +6,7 @@ import Model.Common
 import Model.Inputs
 
 data StorageDrives = StorageDrives
-  { _storageDrivesVolume :: Double -- TB
+  { _storageDrivesUsableVolume :: Double -- TB
   , _storageDrivesBackup :: Double -- TB
   , _storageDrivesRedundancy :: Double -- count
   , _storageDrivesRawVolume :: Double -- TB
@@ -71,8 +71,8 @@ data Setup = Setup
 makeFields ''Setup
 
 data IncidentResponse = IncidentResponse
-  { _indicentResponseFrequency :: Double -- per year
-  , _indicentResponseOperatorCosts :: Double -- Euro
+  { _incidentResponseFrequency :: Double -- per year
+  , _incidentResponseOperatorCosts :: Double -- Euro
   } deriving (Show, Read, Eq)
 
 makeFields ''IncidentResponse

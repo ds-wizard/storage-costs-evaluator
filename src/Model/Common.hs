@@ -17,12 +17,12 @@ data Volume = Volume
 makeFields ''Volume
 
 toTB :: Volume -> Double
-toTB (Volume x GB) = x * 1000
+toTB (Volume x GB) = x / 1000
 toTB (Volume x TB) = x
-toTB (Volume x PB) = x / 1000
+toTB (Volume x PB) = x * 1000
 
 whTokWHperYear :: Double -> Double
-whTokWHperYear x = x * 365 * 24 / 100
+whTokWHperYear x = x * 365 * 24 / 1000
 
 data ContentType = ManySmallFiles
                  | FewLargeFiles
