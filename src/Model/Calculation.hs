@@ -109,8 +109,8 @@ calculateCosts cv dp = StorageCosts
     tbSharedTape = canShare && tbBackupTime < 12
     tbDailyBackup = (dp ^. dailyChanges) * sdVolume
     tbBackupTime = (1000 * tbDailyBackup / (cv ^. tapeSpeed)) * (if (dp ^. contentType) == ManySmallFiles then 2 else 1)
-    tbTapes = (if (dp ^. backupHistory) == Days then 5 else if (dp ^. backupHistory) == Weeks then 10 else 16) +
-              (dp ^. lifetime) * (if (dp ^. backupHistory) == Years then 1 else 0) *
+    tbTapes = ((if (dp ^. backupHistory) == Days then 5 else if (dp ^. backupHistory) == Weeks then 10 else 16) +
+              (dp ^. lifetime) * (if (dp ^. backupHistory) == Years then 1 else 0)) *
               (if tbSharedTape then tbDailyBackup / (cv ^. tapeCapacity) else doubleCeiling (tbDailyBackup/(cv ^. tapeCapacity)))
     tbDrives = if tbSharedTape then tbBackupTime / 24 else doubleCeiling (tbBackupTime / 24)
     tbTapeRobot = tbDailyBackup > (cv ^. tapeCapacity)
@@ -127,7 +127,7 @@ calculateCosts cv dp = StorageCosts
     irOperatorCosts = irFrequency * (dp ^. lifetime) * (cv ^. costMHR) * 0.5 *
                       (if (dp ^. securityLevel) == PrivacySensitive then 1.5 else 1) *
                       (if (dp ^. repairTimes) == D7H24 then 3 else 1)
-    upsTotalCosts = (sdSpaceNeeded * (cv ^. electricityCost) + ssServers * (cv ^. serverPower)) * -- Q: no HDD power?
+    upsTotalCosts = (sdSpaceNeeded * (cv ^. hDDPower) + ssServers * (cv ^. serverPower)) * -- Q: no HDD power?
                     (cv ^. uPS) * 12 * (dp ^. lifetime) *
                     (if (dp ^. unavailability) == Hour then 3 else 1)
     totalCosts = sum [ sdTotalDriveCosts, sdPowerCosts

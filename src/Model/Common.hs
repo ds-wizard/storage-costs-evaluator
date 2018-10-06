@@ -22,7 +22,7 @@ toTB (Volume x TB) = x
 toTB (Volume x PB) = x * 1000
 
 whTokWHperYear :: Double -> Double
-whTokWHperYear x = x * 365 * 24 / 100
+whTokWHperYear x = x * 365 * 24 / 1000
 
 data ContentType = ManySmallFiles
                  | FewLargeFiles

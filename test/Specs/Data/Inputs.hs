@@ -43,5 +43,5 @@ defCV = ConfigVariables
   , _configVariablesFirewallCost = 1000 -- Euro
   , _configVariablesFirewallMaintenance = 0.1 -- Hours/month
   , _configVariablesNetworkPortRent = 10 -- Euro/month
-  , _configVariablesUPS = 0.2 -- Euro/Watt/month
+  , _configVariablesUPS = 0.1 -- Euro/Watt/month
   }
