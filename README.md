@@ -4,8 +4,16 @@
 [![License](https://img.shields.io/github/license/ds-wizard/storage-costs-evaluator.svg)](LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/datastewardshipwizard/storage-costs-evaluator.svg)](https://hub.docker.com/r/datastewardshipwizard/storage-costs-evaluator/)
 
-
 Simple JSON service for evaluating costs long-term data storage. Calculation made by Rob Hooft for DTLS.nl (@rwwh).
+
+## Install and run
+
+```console
+stack build
+npm install
+npm run-script build
+stack exec storage-costs-evaluator
+```
 
 ## License
 

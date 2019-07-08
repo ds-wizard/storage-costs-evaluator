@@ -6,26 +6,37 @@
     <meta name="description" content="">
     <meta name="author" content="Marek Suchánek">
 
-    <title>Storage Costs Evaluator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>DSW Storage Costs Evaluator</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
     <style type="text/css">
-      .tab-pane { padding-top: 0.4em; }
+      * {font-family: 'Ubuntu', sans-serif;}
+      code {font-family: monospace;}
+      .tab-pane { padding-top: 0.4em;}
     </style>
   </head>
 
   <body>
-    <main role="main" class="container">
-      <div class="container">
-        <h1>Storage Costs Evaluator</h1>
-        <p class="lead">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculations were made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2018.</p>
+    <nav class="navbar navbar-dark bg-primary">
+      <!-- TODO: logo -->
+      <span class="navbar-brand">DSW Storage Costs Evaluator</span>
+      <div class="nav navbar-nav ml-auto">
+        <a class="btn btn-outline-light" href="https://ds-wizard.org">DS Wizard</a>
       </div>
+    </nav>
+
+    <main role="main" class="container">
+      <p>This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculations were made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2018.</p>
 
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="inputs-tab" data-toggle="tab" href="#inputs" role="tab">Inputs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="result-tab" data-toggle="tab" href="#result" role="tab">Result</a>
+          <a class="nav-link" id="config-tab" data-toggle="tab" href="#config" role="tab">Configuration</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="json-result-tab" data-toggle="tab" href="#json-result" role="tab">JSON Result</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="apidoc-tab" data-toggle="tab" href="#apidoc" role="tab">API</a>
@@ -33,7 +44,6 @@
       </ul>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="inputs" role="tabpanel">
-          <h2>Desired properties</h2>
           <form id="dpForm">
             <div class="row">
               <div class="col-md">
@@ -204,8 +214,8 @@
               </div>
             </div>
           </form>
-          <hr>
-          <h2>Configuration variables</h2>
+        </div>
+        <div class="tab-pane fade" id="config" role="tabpanel">
           <form id="dpForm">
             <div class="row">
               <div class="col-md">
@@ -405,14 +415,14 @@
             </div>
           </form>
         </div>
-        <div class="tab-pane fade" id="result" role="tabpanel">
+        <div class="tab-pane fade" id="json-result" role="tabpanel">
           <p>Currently this provides only plain JSON output ...</p>
-          <pre id="resultJSON">Press "Calculate" on Inputs tab</pre>
+          <pre><code id="resultJSON" class="json">Press "Calculate" on Inputs tab</code></pre>
         </div>
         <div class="tab-pane fade" id="apidoc" role="tabpanel">
           <p>The API is very simple, it has only 1 POST endpoint on <code>/</code> that expects JSON:</p>
 
-          <pre>
+          <pre><code id="resultJSON" class="json">
 {
   "desiredProperties": {
     "volume": {"volumeValue": 7, "volumeUnit": "TB"},
@@ -430,18 +440,18 @@
     "securityLevel": "OpenData",
     "whoCanAccess": "OpenAccess",
     "sharedInfastructure": false
-  }
+  },
   "configVariables": { ... } // optional
 }
-          </pre>
+          </code></pre>
 
           <p>For details visit code or use this simple form to explore details ...</p>
         </div>
       </div>
 
     </main>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
     <script src="script.js" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>

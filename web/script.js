@@ -1,3 +1,5 @@
+require('jquery');
+require('bootstrap');
 
 function getDesiredProperties() {
   return {
@@ -72,6 +74,7 @@ jQuery('body').ready(function(){
         console.log('Received result from server ...');
         console.log(data);
         $('#resultJSON').text(JSON.stringify(data, null, 2));
+        $('#resultJSON').each(function(i, e) {hljs.highlightBlock(e)});
       },
       error: function(err) {
         console.log('Error while communicating with server ...');

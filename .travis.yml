@@ -31,6 +31,8 @@ jobs:
       script:
         # Build and Test Application
         - stack --no-terminal --skip-ghc-check test
+        - npm install
+        - npm run-script build
         # Build Docker Image
         - docker pull $IMAGE_TAG_LATEST
         - docker build --pull --cache-from $IMAGE_TAG_LATEST -t $IMAGE_TAG .

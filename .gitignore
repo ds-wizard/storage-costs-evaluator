@@ -22,3 +22,7 @@ cabal.project.local~
 .ghc.environment.*
 *.cabal
 *~
+
+# dist
+web/static/style.css
+node_modules
