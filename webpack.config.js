@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
-// var CopyWebpackPlugin = require('copy-webpack-plugin')
+
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -48,11 +49,11 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
-        })
-        // new CopyWebpackPlugin([
-        //     { from: 'src/img', to: 'img' },
-        //     { from: 'src/favicon.ico', to: 'favicon.ico' }
-        // ])
+        }),
+        new CopyWebpackPlugin([
+            { from: 'web/img', to: 'img' },
+            { from: 'web/favicon.ico', to: 'favicon.ico' }
+        ])
     ],
 
     devServer: {
