@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-header" id="heading-<%= result.id %>">
+    <h2 class="mb-0">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= result.id %>" aria-expanded="false" aria-controls="collapse-<%= result.id %>">
+        <%= result.title %>
+      </button>
+    </h2>
+    <div class="info-box" id="info-<%= result.id %>">
+      <span class="na">N/A</span>
+    </div>
+  </div>
+  <div id="collapse-<%= result.id %>" class="collapse" aria-labelledby="heading-<%= result.id %>" data-parent="#results">
+    <div class="card-body">
+      TODO
+    </div>
+  </div>
+</div>

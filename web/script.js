@@ -57,8 +57,8 @@ function getInputs() {
   }
 }
 
-
 jQuery('body').ready(function(){
+
   jQuery('#dpVolumeUnitChange').click(function(){
     jQuery('#dpVolumeUnit').text(jQuery(this).text());
   });
@@ -83,4 +83,14 @@ jQuery('body').ready(function(){
       }
     });
   });
+});
+
+var specs = require('./specs.js');
+console.log(specs.results);
+
+var template = require("ejs-compiled-loader!./parts/results.ejs");
+var resultTemplate = require("ejs-compiled-loader!./parts/result.ejs");
+document.getElementById("x-results").innerHTML = template({
+  'results': specs.results,
+  'resultTemplate': resultTemplate
 });

@@ -7,7 +7,12 @@ var MiniCssExtractPlugin = require('mini-css-extract-plugin')
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = {
-    entry: ['./web/scss/main.scss', './web/script.js'],
+    entry: [
+        './web/scss/main.scss',
+        './web/style.css',
+        './web/script.js',
+        './web/specs.js'
+    ],
 
     output: {
         path: path.resolve(__dirname + '/dist/static'),
@@ -33,9 +38,13 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Data Stewardship Wizard',
-            template: 'web/index.ejs',
-            filename: '../index.html'
+            title: 'DSW Storage Costs Evaluator',
+            template: "!!ejs-compiled-loader!./web/index.ejs",
+            filename: '../index.html',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true
+            }
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[chunkhash].css',
@@ -54,11 +63,5 @@ module.exports = {
             { from: 'web/img', to: 'img' },
             { from: 'web/favicon.ico', to: 'favicon.ico' }
         ])
-    ],
-
-    devServer: {
-        inline: true,
-        stats: { colors: true },
-        historyApiFallback: { disableDotRule: true }
-    }
+    ]
 }

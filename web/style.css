@@ -1,0 +1,27 @@
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+code {
+    font-family: monospace;
+}
+body {
+    padding-bottom: 0.2em;
+}
+
+nav.navbar {
+    margin-bottom: 0.6em;
+}
+.navbar-brand > img {
+    max-height: 1.5em;
+    max-width: 3em;
+}
+
+div.card-header > h2{
+    float:left;
+}
+div.card-header > .info-box {
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    vertical-align: middle;
+    float:right;
+}
