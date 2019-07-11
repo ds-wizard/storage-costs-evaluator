@@ -25,3 +25,13 @@ div.card-header > .info-box {
     vertical-align: middle;
     float:right;
 }
+
+table.table-result-parts > thead {
+    display: none;
+}
+table.table-result-parts > tbody > tr > td.value {
+    text-align: right;
+}
+table.table-result-parts > tbody > tr.row-subtotal {
+    background-color: rgba(0,0,0,.03);
+}

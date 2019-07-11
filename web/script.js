@@ -88,9 +88,12 @@ jQuery('body').ready(function(){
 var specs = require('./specs.js');
 console.log(specs.results);
 
-var template = require("ejs-compiled-loader!./parts/results.ejs");
+var inputsTemplate = require("ejs-compiled-loader!./parts/inputs.ejs");
+document.getElementById("x-inputs").innerHTML = inputsTemplate();
+
+var resultsTemplate = require("ejs-compiled-loader!./parts/results.ejs");
 var resultTemplate = require("ejs-compiled-loader!./parts/result.ejs");
-document.getElementById("x-results").innerHTML = template({
+document.getElementById("x-results").innerHTML = resultsTemplate({
   'results': specs.results,
   'resultTemplate': resultTemplate
 });
