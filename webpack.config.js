@@ -55,10 +55,6 @@ module.exports = {
                 preset: ['default', { discardComments: { removeAll: true } }]
             }
         }),
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
-        }),
         new CopyWebpackPlugin([
             { from: 'web/img', to: 'img' },
             { from: 'web/favicon.ico', to: 'favicon.ico' }
