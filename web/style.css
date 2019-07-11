@@ -16,6 +16,11 @@ nav.navbar {
     max-width: 3em;
 }
 
+div.input-group-append > select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
 div.card-header > h2{
     float:left;
 }

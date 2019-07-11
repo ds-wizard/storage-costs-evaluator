@@ -4,7 +4,7 @@ function getDesiredProperties() {
   return {
     "volume": {
       "volumeValue": parseFloat(document.getElementById('dpVolumeValue').value),
-      "volumeUnit": document.getElementById('dpVolumeUnit').innerText
+      "volumeUnit": document.getElementById('dpVolumeUnit').value
     },
     "lifetime": parseFloat(document.getElementById('dpLifetime').value),
     "dailyChanges": parseFloat(document.getElementById('dpDailyChanges').value) / 100,
@@ -67,18 +67,17 @@ document.getElementById("x-results").innerHTML = resultsTemplate({
   'resultTemplate': resultTemplate
 });
 
-// Units of volume
-var elems = document.getElementsByClassName('dpVolumeUnitChange');
-for (var i = 0; i < elems.length; i++) {
-  elems[i].onclick = function(){
-    alert(this.innerText);
-    document.getElementById('dpVolumeUnit').innerText = this.innerText;
+// TODO: Accordion with Vanilla JS (Bootstrap)
+var btns = document.getElementsByClassName('btn');
+for (var i = 0; i < btns.length; i++) {
+  btns[i].onclick = function() {
+    var toggle = this.getAttribute('data-toggle');
+    if (toggle == 'collapse') {
+      var target = this.getAttribute('data-target').slice(1);
+      document.getElementById(target).classList.toggle('show');
+    }
   };
 }
-
-// TODO: Accordion with Vanilla JS (Bootstrap)
-
-// TODO: Dropdown with Vanilly JS (Bootstrap)
 
 // Calculation
 document.getElementById('btnCalculate').onclick = function(){

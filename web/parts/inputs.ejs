@@ -21,12 +21,11 @@
                 <div class="input-group">
                   <input type="number" class="form-control" id="dpVolumeValue" min="0" value="0">
                   <div class="input-group-append">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" id="dpVolumeUnit">TB</button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item dpVolumeUnitChange" href="#">PB</a>
-                      <a class="dropdown-item dpVolumeUnitChange" href="#">TB</a>
-                      <a class="dropdown-item dpVolumeUnitChange" href="#">GB</a>
-                    </div>
+                    <select class="custom-select" id="dpVolumeUnit">
+                      <option value="GB">GB</option>
+                      <option value="TB" selected>TB</option>
+                      <option value="PB">PB</option>
+                    </select>
                   </div>
                 </div>
               </div>
