@@ -1,6 +1,5 @@
 // TODO: inputs to generate as well
 
-// TODO: fields for detailed view
 exports.results = [
     {
         id: 'storageDrives',
@@ -303,3 +302,77 @@ exports.results = [
         ]
     }
 ]
+
+exports.resultMappings = {
+    'costsSetup': {
+        '_classname': 'setup',
+        '_total': ['operatorCosts'],
+        'operator': 'operatorHours',
+        'operatorCosts': 'operatorCosts'
+    },
+    'indicentResponse': {
+        '_classname': 'incidentResponse',
+        '_total': ['operatorCosts'],
+        'frequency': 'frequency',
+        'operatorCosts': 'operatorCosts'
+    },
+    'networking': {
+        '_classname': 'networking',
+        '_total': ['bandwidthCosts', 'firewallCosts', 'networkPorts', 'firewallSetup', 'firewallMaintenance'],
+        'bandwidthBackup': 'bandwidthBackup',
+        'bandwidthCosts': 'bandwidthCosts',
+        'bandwidthOut': 'bandwidthOut',
+        'firewalls': 'firewalls',
+        'firewallCosts': 'firewallCosts',
+        'firewallMaintenance': 'firewallMaintenance',
+        'firewallSetup': 'firewallSetup',
+        'networkPorts': 'networkPorts'
+    },
+    'powerSupplies': {
+        '_classname': 'ups',
+        '_total': ['totalCosts'],
+        'totalCosts': 'totalCosts'
+    },
+    'storageDrives': {
+        '_classname': 'storageDrives',
+        '_total': ['driveCosts', 'powerCosts'],
+        'backup': 'backup',
+        'driveCosts': 'totalDriveCosts',
+        'powerCosts': 'powerCosts',
+        'rawVolume': 'rawVolume',
+        'redundancy': 'redundancy',
+        'replacements': 'replacements',
+        'spaceNeeded': 'spaceNeeded',
+        'usableVolume': 'volume'
+    },
+    'storageServers': {
+        '_classname': 'storageServers',
+        '_total': ['powerCosts', 'racksCosts', 'serversCosts'],
+        'drives': 'drives',
+        'powerCosts': 'powerCosts',
+        'racks': 'racks',
+        'racksCosts': 'racksCosts',
+        'replacements': 'replacements',
+        'servers': 'servers',
+        'serversCosts': 'serversCosts',
+        'shared': 'sharedServer'
+    },
+    'tapeBackup': {
+        '_classname': 'tapeBackup',
+        '_total': ['driveCosts', 'operatorCosts', 'robotCosts', 'tapeCosts'],
+        'backupTime': 'backupTime',
+        'dailyBackup': 'dailyBackup',
+        'driveCosts': 'totalDriveCosts',
+        'drives': 'drives',
+        'operatorCosts': 'operatorCosts',
+        'repairTime': 'acceptableRepairTime',
+        'restoreTime': 'restoreTime',
+        'robotCosts': 'totalRobotCosts',
+        'sharedTape': 'sharedTape',
+        'tapeCosts': 'totalTapeCosts',
+        'tapeIndex': 'tapeIndex',
+        'tapeOperator': 'tapeOperator',
+        'tapeRobot': 'tapeRobot',
+        'tapes': 'tapes'
+    }
+}

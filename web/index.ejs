@@ -21,17 +21,24 @@
     </nav>
 
     <main role="main" class="container" id="main">
-      <p class="muted">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculations were made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2018.</p>
-
       <div id="x-inputs"></div>
       <hr>
-        <center>
-          <div class="form-group">
-              <button type="button" class="btn btn-primary" id="btnCalculate">Calculate</button>
+        <div class="row" id="middle-row">
+          <div class="col-sm">
+            <button type="button" class="btn btn-primary" id="btnCalculate">Calculate</button>
           </div>
-        </center>
+          <div class="col-sm">
+            Total costs:<br><span class="total-lifetime">N/A</span>&nbsp;&euro;
+          </div>
+          <div class="col-sm">
+            Costs per year:<br><span class="total-perYear">N/A</span>&nbsp;&euro;
+          </div>
+        </div>
       <hr>
       <div id="x-results"></div>
+      <hr>
+      <p class="muted">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculations were made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2018.</p>
+
     </main>
   </body>
 </html>

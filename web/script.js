@@ -1,5 +1,13 @@
 var specs = require('./specs.js');
 
+
+function forEachWithClassName(classname, func) {
+  var elements =  document.getElementsByClassName(classname);
+  for (var i = 0; i < elements.length; i++) {
+    func(elements[i]);
+  }
+}
+
 function getDesiredProperties() {
   return {
     "volume": {
@@ -56,6 +64,39 @@ function getInputs() {
   }
 }
 
+function processResult(result) {
+  var storageCosts = result.storageCosts;
+  for (category in specs.resultMappings) {
+    var catClass = specs.resultMappings[category]["_classname"];
+
+    for (item in specs.resultMappings[category]) {
+      if (item[0] == '_') continue;
+      var itemClass = specs.resultMappings[category][item];
+      forEachWithClassName('value-' + catClass + '-' + itemClass, function(e) {
+        // TODO: process value = transform, round, etc.
+        e.innerText = storageCosts[category][item];
+      });
+    }
+
+    var sum = 0;
+    var subtotals = specs.resultMappings[category]['_total'];
+    for (var i = 0; i < subtotals.length; i++) {
+      sum += parseFloat(storageCosts[category][subtotals[i]]);
+    }
+    forEachWithClassName('total-value-' + catClass, function(e) {
+      e.innerText = Math.round(sum);
+    });
+
+    forEachWithClassName('total-lifetime', function(e) {
+      e.innerText = Math.round(storageCosts['total']);
+    });
+
+    forEachWithClassName('total-perYear', function(e) {
+      e.innerText = Math.round(storageCosts['perYear']*100) / 100;
+    });
+  }
+}
+
 
 var inputsTemplate = require("ejs-compiled-loader!./parts/inputs.ejs");
 document.getElementById("x-inputs").innerHTML = inputsTemplate();
@@ -68,16 +109,15 @@ document.getElementById("x-results").innerHTML = resultsTemplate({
 });
 
 // TODO: Accordion with Vanilla JS (Bootstrap)
-var btns = document.getElementsByClassName('btn');
-for (var i = 0; i < btns.length; i++) {
-  btns[i].onclick = function() {
+forEachWithClassName('btn', function(button) {
+  button.onclick = function() {
     var toggle = this.getAttribute('data-toggle');
     if (toggle == 'collapse') {
       var target = this.getAttribute('data-target').slice(1);
       document.getElementById(target).classList.toggle('show');
     }
   };
-}
+});
 
 // Calculation
 document.getElementById('btnCalculate').onclick = function(){
@@ -88,10 +128,9 @@ document.getElementById('btnCalculate').onclick = function(){
   xhr.onload = function() {
       if (xhr.status === 200) {
         console.log('Received result from server');
-        document.getElementById('resultJSON').innerText = JSON.stringify(JSON.parse(xhr.responseText), null, 2);
+        processResult(JSON.parse(xhr.responseText));
       } else {
         console.log('Request failed - returned status of ' + xhr.status);
-        document.getElementById('resultJSON').innerText = JSON.stringify(getInputs(), null, 2);
       }
   };
   xhr.send(JSON.stringify(getInputs()));

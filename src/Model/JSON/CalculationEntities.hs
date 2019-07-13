@@ -37,8 +37,8 @@ instance ToJSON StorageServers where
 instance ToJSON Networking where
   toJSON Networking {..} =
     object
-      [ "drives" .= _networkingFirewalls
-      , "backup" .= _networkingBandwidthBackup
+      [ "firewalls" .= _networkingFirewalls
+      , "bandwidthBackup" .= _networkingBandwidthBackup
       , "bandwidthOut" .= _networkingBandwidthOut
       , "networkPorts" .= _networkingNetworkPorts
       , "bandwidthCosts" .= _networkingBandwidthCosts

@@ -6,7 +6,7 @@
       </button>
     </h2>
     <div class="info-box" id="info-<%= result.id %>">
-      <span class="na">N/A &euro;</span>
+      <span class="total-value-<%= result.id %>">N/A</span>&nbsp;&euro;
     </div>
   </div>
   <div id="collapse-<%= result.id %>" class="collapse" aria-labelledby="heading-<%= result.id %>" data-parent="#results">
@@ -24,7 +24,7 @@
             <tr class="row-<%= part.type %>">
               <th scope="row"><%= part.title %></th>
               <td class="value value-<%= result.id %>-<%= part.id %>">N/A</td>
-              <td><%= part.unit %></td>
+              <td class="unit"><%= part.unit %></td>
             </tr>
           <% }); %>
         </tbody>

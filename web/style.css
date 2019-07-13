@@ -37,6 +37,17 @@ table.table-result-parts > thead {
 table.table-result-parts > tbody > tr > td.value {
     text-align: right;
 }
+table.table-result-parts > tbody > tr > td.unit {
+    width: 13ch;
+}
 table.table-result-parts > tbody > tr.row-subtotal {
     background-color: rgba(0,0,0,.03);
+}
+
+div#middle-row > div.col-sm {
+    text-align: center;
+}
+div#middle-row span.total-lifetime,
+div#middle-row span.total-perYear {
+    font-weight: bold;
 }
