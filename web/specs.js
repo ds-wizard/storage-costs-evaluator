@@ -303,76 +303,217 @@ exports.results = [
     }
 ]
 
+function transformYesNo(value) {
+    return (value === true ? 'Yes' : (value === false ? 'No' : value));
+}
+
+function transformRound2(value) {
+    return Math.round(value * 100) / 100;
+}
+
+function transformShow2Decimal(value) {
+    return Number(value).toFixed(2);
+}
+
 exports.resultMappings = {
     'costsSetup': {
         '_classname': 'setup',
         '_total': ['operatorCosts'],
-        'operator': 'operatorHours',
-        'operatorCosts': 'operatorCosts'
+        'operator': {
+            '_classname': 'operatorHours',
+            '_transform': [transformRound2]
+        },
+        'operatorCosts': {
+            '_classname': 'operatorCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        }
     },
     'indicentResponse': {
         '_classname': 'incidentResponse',
         '_total': ['operatorCosts'],
-        'frequency': 'frequency',
-        'operatorCosts': 'operatorCosts'
+        'frequency': {
+            '_classname': 'frequency',
+            '_transform': [transformRound2]
+        },
+        'operatorCosts': {
+            '_classname': 'operatorCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        }
     },
     'networking': {
         '_classname': 'networking',
         '_total': ['bandwidthCosts', 'firewallCosts', 'networkPorts', 'firewallSetup', 'firewallMaintenance'],
-        'bandwidthBackup': 'bandwidthBackup',
-        'bandwidthCosts': 'bandwidthCosts',
-        'bandwidthOut': 'bandwidthOut',
-        'firewalls': 'firewalls',
-        'firewallCosts': 'firewallCosts',
-        'firewallMaintenance': 'firewallMaintenance',
-        'firewallSetup': 'firewallSetup',
-        'networkPorts': 'networkPorts'
+        'bandwidthBackup': {
+            '_classname': 'bandwidthBackup',
+            '_transform': []
+        },
+        'bandwidthCosts': {
+            '_classname': 'bandwidthCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'bandwidthOut': {
+            '_classname': 'bandwidthOut',
+            '_transform': []
+        },
+        'firewalls': {
+            '_classname': 'firewalls',
+            '_transform': [transformYesNo]
+        },
+        'firewallCosts': {
+            '_classname': 'firewallCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'firewallMaintenance': {
+            '_classname': 'firewallMaintenance',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'firewallSetup': {
+            '_classname': 'firewallSetup',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'networkPorts': {
+            '_classname': 'networkPorts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        }
     },
     'powerSupplies': {
         '_classname': 'ups',
         '_total': ['totalCosts'],
-        'totalCosts': 'totalCosts'
+        'totalCosts': {
+            '_classname': 'totalCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        }
     },
     'storageDrives': {
         '_classname': 'storageDrives',
         '_total': ['driveCosts', 'powerCosts'],
-        'backup': 'backup',
-        'driveCosts': 'totalDriveCosts',
-        'powerCosts': 'powerCosts',
-        'rawVolume': 'rawVolume',
-        'redundancy': 'redundancy',
-        'replacements': 'replacements',
-        'spaceNeeded': 'spaceNeeded',
-        'usableVolume': 'volume'
+        'backup': {
+            '_classname': 'backup',
+            '_transform': []
+        },
+        'driveCosts': {
+            '_classname': 'totalDriveCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'powerCosts': {
+            '_classname': 'powerCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'rawVolume': {
+            '_classname': 'rawVolume',
+            '_transform': []
+        },
+        'redundancy': {
+            '_classname': 'redundancy',
+            '_transform': []
+        },
+        'replacements': {
+            '_classname': 'replacements',
+            '_transform': [transformRound2]
+        },
+        'spaceNeeded': {
+            '_classname': 'spaceNeeded',
+            '_transform': []
+        },
+        'usableVolume': {
+            '_classname': 'volume',
+            '_transform': []
+        }
     },
     'storageServers': {
         '_classname': 'storageServers',
         '_total': ['powerCosts', 'racksCosts', 'serversCosts'],
-        'drives': 'drives',
-        'powerCosts': 'powerCosts',
-        'racks': 'racks',
-        'racksCosts': 'racksCosts',
-        'replacements': 'replacements',
-        'servers': 'servers',
-        'serversCosts': 'serversCosts',
-        'shared': 'sharedServer'
+        'drives': {
+            '_classname': 'drives',
+            '_transform': []
+        },
+        'powerCosts': {
+            '_classname': 'powerCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'racks': {
+            '_classname': 'racks',
+            '_transform': [transformRound2]
+        },
+        'racksCosts': {
+            '_classname': 'racksCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'replacements': {
+            '_classname': 'replacements',
+            '_transform': []
+        },
+        'servers': {
+            '_classname': 'servers',
+            '_transform': []
+        },
+        'serversCosts': {
+            '_classname': 'serversCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'shared': {
+            '_classname': 'sharedServer',
+            '_transform': [transformYesNo]
+        }
     },
     'tapeBackup': {
         '_classname': 'tapeBackup',
         '_total': ['driveCosts', 'operatorCosts', 'robotCosts', 'tapeCosts'],
-        'backupTime': 'backupTime',
-        'dailyBackup': 'dailyBackup',
-        'driveCosts': 'totalDriveCosts',
-        'drives': 'drives',
-        'operatorCosts': 'operatorCosts',
-        'repairTime': 'acceptableRepairTime',
-        'restoreTime': 'restoreTime',
-        'robotCosts': 'totalRobotCosts',
-        'sharedTape': 'sharedTape',
-        'tapeCosts': 'totalTapeCosts',
-        'tapeIndex': 'tapeIndex',
-        'tapeOperator': 'tapeOperator',
-        'tapeRobot': 'tapeRobot',
-        'tapes': 'tapes'
+        'backupTime': {
+            '_classname': 'backupTime',
+            '_transform': [transformRound2]
+        },
+        'dailyBackup': {
+            '_classname': 'dailyBackup',
+            '_transform': []
+        },
+        'driveCosts': {
+            '_classname': 'totalDriveCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'drives': {
+            '_classname': 'drives',
+            '_transform': [transformRound2]
+        },
+        'operatorCosts': {
+            '_classname': 'operatorCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'repairTime': {
+            '_classname': 'acceptableRepairTime',
+            '_transform': []
+        },
+        'restoreTime': {
+            '_classname': 'restoreTime',
+            '_transform': [transformRound2]
+        },
+        'robotCosts': {
+            '_classname': 'totalRobotCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'sharedTape': {
+            '_classname': 'sharedTape',
+            '_transform': [transformYesNo]
+        },
+        'tapeCosts': {
+            '_classname': 'totalTapeCosts',
+            '_transform': [transformRound2, transformShow2Decimal]
+        },
+        'tapeIndex': {
+            '_classname': 'tapeIndex',
+            '_transform': [transformYesNo]
+        },
+        'tapeOperator': {
+            '_classname': 'tapeOperator',
+            '_transform': [transformRound2]
+        },
+        'tapeRobot': {
+            '_classname': 'tapeRobot',
+            '_transform': [transformYesNo]
+        },
+        'tapes': {
+            '_classname': 'tapes',
+            '_transform': [transformRound2]
+        }
     }
 }

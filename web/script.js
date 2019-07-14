@@ -71,10 +71,16 @@ function processResult(result) {
 
     for (item in specs.resultMappings[category]) {
       if (item[0] == '_') continue;
-      var itemClass = specs.resultMappings[category][item];
+      var itemClass = specs.resultMappings[category][item]["_classname"];
       forEachWithClassName('value-' + catClass + '-' + itemClass, function(e) {
-        // TODO: process value = transform, round, etc.
-        e.innerText = storageCosts[category][item];
+        var result = storageCosts[category][item];
+        
+        var transforms = specs.resultMappings[category][item]["_transform"];
+        for (var i = 0; i < transforms.length; i++) {
+          result = transforms[i](result);
+        }
+
+        e.innerText = result;
       });
     }
 
@@ -88,11 +94,11 @@ function processResult(result) {
     });
 
     forEachWithClassName('total-lifetime', function(e) {
-      e.innerText = Math.round(storageCosts['total']);
+      e.innerText = Number(Math.round(storageCosts['total'])).toFixed(2);
     });
 
     forEachWithClassName('total-perYear', function(e) {
-      e.innerText = Math.round(storageCosts['perYear']*100) / 100;
+      e.innerText = Number(Math.round(storageCosts['perYear'] * 100) / 100).toFixed(2);
     });
   }
 }
