@@ -1,399 +1,63 @@
 <div class="accordion" id="inputs">
-  <div class="card">
-    <div class="card-header" id="heading-desiredProperties">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-desiredProperties" aria-expanded="true" aria-controls="collapse-desiredProperties">
-          Desired properties
-        </button>
-      </h2>
-      <div class="info-box">
-        <span class="input">Input</span>
+  <% inputs.forEach(function(input){ %>
+    <div class="card">
+      <div class="card-header" id="heading-<%= input.id %>">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-<%= input.id %>" aria-expanded="true" aria-controls="collapse-<%= input.id %>">
+              <%= input.title %>
+          </button>
+        </h2>
       </div>
+    
+      <div id="collapse-<%= input.id %>" class="collapse<%= (input.show ? ' show' : '') %>" aria-labelledby="heading-<%= input.id %>" data-parent="#inputs">
+        <form class="card-body row" id="form-<%= input.id %>">
+            <% var halfSize = Math.ceil(input.fields.length / 2); %>
+            <% var fields1 = input.fields.slice(0, halfSize); %>
+            <% var fields2 = input.fields.slice(halfSize, input.fields.length); %>
+            <% var cols = [fields1, fields2] %>
+
+            <% cols.forEach(function(fields){ %>
+              <div class="col-md">
+                  <% fields.forEach(function(field){ %>
+                    <div class="form-group">
+                      <label for="value-<%= input.id %>-<%= field.id %>"><%= field.title %></label>
+                      <div class="input-group">
+                          <% if (field.type == 'select') { %>
+                            <select class="custom-select" id="value-<%= input.id %>-<%= field.id %>">
+                              <% field.options.forEach(function(option){ %>
+                                <option value="<%= option.value %>"<%= (option.value == field.default ? ' selected' : '') %>><%= option.title %></option>
+                              <% }); %>
+                            </select>
+                          <% } else { %>
+                            <% var params = field.inputParams == null ? {} : field.inputParams; %>
+                            <input type="<% field.type %>" class="form-control" id="value-<%= input.id %>-<%= field.id %>" value="<%= field.default %>"<% Object.keys(params).forEach(function(param){ %><%= param %>="<%= params[param] %>"<% }); %>>
+                          <% } %>
+                          
+                          <% if (field.unit != null) { %>
+                            <div class="input-group-append">
+                              <% if (field.unit.type == 'simple') { %>
+                                <span class="input-group-text"><%= field.unit.text %></span>
+                              <% } else if (field.unit.type == 'select') { %>
+                                <select class="custom-select" id="unit-<%= input.id %>-<%= field.id %>">
+                                  <% field.unit.options.forEach(function(option){ %>
+                                    <option value="<%= option.value %>"<%= (option.value == field.unit.default ? ' selected' : '') %>><%= option.title %></option>
+                                  <% }); %>
+                                </select>
+                              <% } %>
+                            </div>
+                          <% } %>
+                        </div>
+
+                        <% if (field.help != null) { %>
+                          <small id="help-<%= input.id %>-<%= field.id %>" class="form-text text-muted"><%= field.help %></small>
+                        <% } %>
+                    </div>
+                  <% }); %>
+                </div>
+            <% }); %>
+        </form>
     </div>
 
-    <div id="collapse-desiredProperties" class="collapse" aria-labelledby="heading-desiredProperties" data-parent="#inputs">
-      <div class="card-body">
-        <form id="dpForm">
-          <div class="row">
-            <div class="col-md">
-              <div class="form-group">
-                <label for="dpVolumeValue">Volume</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="dpVolumeValue" min="0" value="0">
-                  <div class="input-group-append">
-                    <select class="custom-select" id="dpVolumeUnit">
-                      <option value="GB">GB</option>
-                      <option value="TB" selected>TB</option>
-                      <option value="PB">PB</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpLifetime">Lifetime</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="dpLifetime" min="0" value="0">
-                  <div class="input-group-append">
-                     <span class="input-group-text">years</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpDailyChanges">Daily changes</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="dpDailyChanges" min="0" max="100" value="10">
-                  <div class="input-group-append">
-                     <span class="input-group-text">%</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpContentType">Content type</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpContentType">
-                    <option value="ManySmallFiles">Many small files</option>
-                    <option value="FewLargeFiles">Few large files</option>
-                    <option value="Database">Database</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpAccessType">Access type</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpAccessType">
-                    <option value="OneFileOnRequest">One file on request</option>
-                    <option value="RemoteFiles">Remote files</option>
-                    <option value="DataBase">Database</option>
-                    <option value="WebSite">Website</option>
-                    <option value="CalculationServer">Calculation server</option>
-                    <option value="HighPerformance">High performance</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpDailyReadVolume">Daily read volume</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="dpDailyReadVolume" min="0" max="100" value="10">
-                  <div class="input-group-append">
-                     <span class="input-group-text">%</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpRepairWithin">Repair within</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpRepairWithin">
-                    <option value="Seconds">Seconds</option>
-                    <option value="Minutes">Minutes</option>
-                    <option value="Hours" selected>Hours</option>
-                    <option value="Days">Days</option>
-                    <option value="Weeks">Weeks</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpRepairTimes">Repair times</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpRepairTimes">
-                    <option value="D5H8">8/5</option>
-                    <option value="D5H10">10/5</option>
-                    <option value="D7H24" selected>24/7</option>
-                  </select>
-                </div>
-                <small id="dpRepairTimesHelp" class="form-text text-muted">H/D = H hours per day, D days per week.</small>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="form-group">
-                <label for="dpTapeBackup">Tape backup</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpTapeBackup">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpBackupFrequency">Backup frequency</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpBackupFrequency">
-                    <option value="Hours">Hours</option>
-                    <option value="Days" selected>Days</option>
-                    <option value="Weeks">Weeks</option>
-                    <option value="Months">Months</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpBackupHistory">Backup history</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpBackupHistory">
-                    <option value="Hours">Hours</option>
-                    <option value="Days">Days</option>
-                    <option value="Weeks">Weeks</option>
-                    <option value="Months" selected>Months</option>
-                    <option value="Years">Years</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpUnavailability">Unavailability (per year)</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpUnavailability">
-                    <option value="Hour">Hour</option>
-                    <option value="Day">Day</option>
-                    <option value="Week">Week</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpSecurityLevel">Security level</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpSecurityLevel">
-                    <option value="OpenData">Open data</option>
-                    <option value="ClosedData">Closed data</option>
-                    <option value="PrivacySensitive">Privacy sensitive</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpWhoCanAccess">Who can access</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpWhoCanAccess">
-                    <option value="OnlyMe">Only me</option>
-                    <option value="LocalCollaborators">Local collaborators</option>
-                    <option value="AuthorizedPeople">Authorized people</option>
-                    <option value="OpenAccess">Open access</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="dpSharedInfrastracture">Shared infrastructure</label>
-                <div class="input-group">
-                  <select class="custom-select" id="dpSharedInfrastracture">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-  <div class="card">
-    <div class="card-header" id="heading-configuration">
-      <h2 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-configuration" aria-expanded="false" aria-controls="collapse-configuration">
-          Configuration
-        </button>
-      </h2>
-      <div class="info-box">
-        <span class="input">Input</span>
-      </div>
-    </div>
-    <div id="collapse-configuration" class="collapse" aria-labelledby="heading-configuration" data-parent="#inputs">
-      <div class="card-body">
-        <form id="dpForm">
-          <div class="row">
-            <div class="col-md">
-              <div class="form-group">
-                <label for="cvHDDCost">HDD cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvHDDCost" min="0" value="30">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€ / TB</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvHDDSize">HDD size</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvHDDSize" min="0" value="10">
-                  <div class="input-group-append">
-                     <span class="input-group-text">TB</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvHDDPower">HDD power consumption</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvHDDPower" min="0" value="1.5">
-                  <div class="input-group-append">
-                     <span class="input-group-text">Watt / TB</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvElectricityCost">Electricity cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvElectricityCost" min="0" value="0.14">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€ / kWh</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvPowerEfficiency">Power efficiency</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvPowerEfficiency" min="0" max="100" value="70">
-                  <div class="input-group-append">
-                     <span class="input-group-text">%</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvStorageServer">Storage server cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvStorageServer" min="0" value="5000">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvStorageRack">Storage rack cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvStorageRack" min="0" value="2000">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€ / year</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvServerPower">Server power consumption</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvServerPower" min="0" value="200">
-                  <div class="input-group-append">
-                     <span class="input-group-text">Watt</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvLifetimeHDD">Lifetime HDD</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvLifetimeHDD" min="0" value="3">
-                  <div class="input-group-append">
-                     <span class="input-group-text">years</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvLifetimeServer">Lifetime server</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvLifetimeServer" min="0" value="5">
-                  <div class="input-group-append">
-                     <span class="input-group-text">years</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvUPS">UPS cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvUPS" min="0" value="0.2">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€ / Watt / month</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="form-group">
-                <label for="cvTapeSpeed">Tape speed</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvTapeSpeed" min="0" value="432">
-                  <div class="input-group-append">
-                     <span class="input-group-text">GB / hour</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvTapeCapacity">Tape capacity</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvTapeCapacity" min="0" value="15">
-                  <div class="input-group-append">
-                     <span class="input-group-text">TB</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvTapeCost">Tape cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvTapeCost" min="0" value="150">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvTapeDriveCost">Tape drive cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvTapeDriveCost" min="0" value="3000">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvTapeRobotCost">Tape robot cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvTapeRobotCost" min="0" value="5000">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvCostMHR">Cost of 1 manhour</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvCostMHR" min="0" value="70">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvNetworkCost">Network cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvNetworkCost" min="0" value="0.5">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€ / TB</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvNetworkPortRent">Network port rent cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvNetworkPortRent" min="0" value="10">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€ / month</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvFirewallCost">Firewall cost</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvFirewallCost" min="0" value="1000">
-                  <div class="input-group-append">
-                     <span class="input-group-text">€</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="cvFirewallMaintenance">Firewall maintenance</label>
-                <div class="input-group">
-                  <input type="number" class="form-control" id="cvFirewallMaintenance" min="0" value="0.1">
-                  <div class="input-group-append">
-                     <span class="input-group-text">hours / month</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  <% }); %>
 </div>

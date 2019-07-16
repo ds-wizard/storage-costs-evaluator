@@ -1,3 +1,5 @@
+require('bootstrap');
+
 var specs = require('./specs.js');
 
 
@@ -8,52 +10,60 @@ function forEachWithClassName(classname, func) {
   }
 }
 
+// TODO: nicer mapping with API request object
 function getDesiredProperties() {
+  function getDesiredProperty(id, what='value'){
+    return document.getElementById(what + '-inputParameters-' + id);
+  }
+
   return {
     "volume": {
-      "volumeValue": parseFloat(document.getElementById('dpVolumeValue').value),
-      "volumeUnit": document.getElementById('dpVolumeUnit').value
+      "volumeValue": parseFloat(getDesiredProperty('volume').value),
+      "volumeUnit": getDesiredProperty('volume', 'unit').value
     },
-    "lifetime": parseFloat(document.getElementById('dpLifetime').value),
-    "dailyChanges": parseFloat(document.getElementById('dpDailyChanges').value) / 100,
-    "contentType": document.getElementById('dpContentType').value,
-    "accessType": document.getElementById('dpAccessType').value,
-    "dailyReadVolume": parseFloat(document.getElementById('dpDailyReadVolume').value) / 100,
-    "repairWithin": document.getElementById('dpRepairWithin').value,
-    "repairTimes": document.getElementById('dpRepairTimes').value,
-    "tapeBackup": document.getElementById('dpRepairTimes').value == 'yes',
-    "backupFrequency": document.getElementById('dpBackupFrequency').value,
-    "backupHistory": document.getElementById('dpBackupHistory').value,
-    "unavailability": document.getElementById('dpUnavailability').value,
-    "securityLevel": document.getElementById('dpSecurityLevel').value,
-    "whoCanAccess": document.getElementById('dpWhoCanAccess').value,
-    "sharedInfastructure": document.getElementById('dpSharedInfrastracture').value == 'yes'
+    "lifetime": parseFloat(getDesiredProperty('lifetime').value),
+    "dailyChanges": parseFloat(getDesiredProperty('dailyChanges').value) / 100,
+    "contentType": getDesiredProperty('contentType').value,
+    "accessType": getDesiredProperty('accessType').value,
+    "dailyReadVolume": parseFloat(getDesiredProperty('dailyReadVolume').value) / 100,
+    "repairWithin": getDesiredProperty('repairWithin').value,
+    "repairTimes": getDesiredProperty('repairTimes').value,
+    "tapeBackup": getDesiredProperty('repairTimes').value == 'yes',
+    "backupFrequency": getDesiredProperty('backupFrequency').value,
+    "backupHistory": getDesiredProperty('backupHistory').value,
+    "unavailability": getDesiredProperty('unavailability').value,
+    "securityLevel": getDesiredProperty('securityLevel').value,
+    "whoCanAccess": getDesiredProperty('whoCanAccess').value,
+    "sharedInfastructure": getDesiredProperty('sharedInfrastracture').value == 'yes'
   }
 }
 
 function getConfigVariables() {
+  function getConfigVariable(id, what='value'){
+    return document.getElementById(what + '-configuration-' + id);
+  }
   return {
-    "hddCost": parseFloat(document.getElementById('cvHDDCost').value),
-    "hddSize": parseFloat(document.getElementById('cvHDDSize').value),
-    "hddPower": parseFloat(document.getElementById('cvHDDPower').value),
-    "electricityCost": parseFloat(document.getElementById('cvElectricityCost').value),
-    "powerEfficiency": parseFloat(document.getElementById('cvPowerEfficiency').value) / 100,
-    "storageServerCost": parseFloat(document.getElementById('cvStorageServer').value),
-    "storageRackCostPerYear": parseFloat(document.getElementById('cvStorageRack').value),
-    "storagePower": parseFloat(document.getElementById('cvServerPower').value),
-    "lifetimeHDD": parseFloat(document.getElementById('cvLifetimeHDD').value),
-    "lifetimeServer": parseFloat(document.getElementById('cvLifetimeServer').value),
-    "tapeSpeed": parseFloat(document.getElementById('cvTapeSpeed').value),
-    "tapeCapacity": parseFloat(document.getElementById('cvTapeCapacity').value),
-    "tapeCost": parseFloat(document.getElementById('cvTapeCost').value),
-    "tapeDriveCost": parseFloat(document.getElementById('cvTapeDriveCost').value),
-    "tapeRobotCost": parseFloat(document.getElementById('cvTapeRobotCost').value),
-    "costMHR": parseFloat(document.getElementById('cvCostMHR').value),
-    "networkCostPerTB": parseFloat(document.getElementById('cvNetworkCost').value),
-    "firewallCost": parseFloat(document.getElementById('cvFirewallCost').value),
-    "firewallMaintenance": parseFloat(document.getElementById('cvFirewallMaintenance').value),
-    "networkPortRentCost": parseFloat(document.getElementById('cvNetworkPortRent').value),
-    "upsCostPerWattMonth": parseFloat(document.getElementById('cvUPS').value)
+    "hddCost": parseFloat(getConfigVariable('hddCost').value),
+    "hddSize": parseFloat(getConfigVariable('hddSize').value),
+    "hddPower": parseFloat(getConfigVariable('hddPower').value),
+    "electricityCost": parseFloat(getConfigVariable('electricityCost').value),
+    "powerEfficiency": parseFloat(getConfigVariable('powerEfficiency').value) / 100,
+    "storageServerCost": parseFloat(getConfigVariable('storageServer').value),
+    "storageRackCostPerYear": parseFloat(getConfigVariable('storageRack').value),
+    "storagePower": parseFloat(getConfigVariable('serverPower').value),
+    "lifetimeHDD": parseFloat(getConfigVariable('lifetimeHDD').value),
+    "lifetimeServer": parseFloat(getConfigVariable('lifetimeServer').value),
+    "tapeSpeed": parseFloat(getConfigVariable('tapeSpeed').value),
+    "tapeCapacity": parseFloat(getConfigVariable('tapeCapacity').value),
+    "tapeCost": parseFloat(getConfigVariable('tapeCost').value),
+    "tapeDriveCost": parseFloat(getConfigVariable('tapeDriveCost').value),
+    "tapeRobotCost": parseFloat(getConfigVariable('tapeRobotCost').value),
+    "costMHR": parseFloat(getConfigVariable('costMHR').value),
+    "networkCostPerTB": parseFloat(getConfigVariable('networkCost').value),
+    "firewallCost": parseFloat(getConfigVariable('firewallCost').value),
+    "firewallMaintenance": parseFloat(getConfigVariable('firewallMaintenance').value),
+    "networkPortRentCost": parseFloat(getConfigVariable('networkPortRent').value),
+    "upsCostPerWattMonth": parseFloat(getConfigVariable('ups').value)
   }
 }
 
@@ -94,35 +104,26 @@ function processResult(result) {
     });
 
     forEachWithClassName('total-lifetime', function(e) {
-      e.innerText = Number(Math.round(storageCosts['total'])).toFixed(2);
+      e.innerText = Math.round(storageCosts['total']);
     });
 
     forEachWithClassName('total-perYear', function(e) {
-      e.innerText = Number(Math.round(storageCosts['perYear'] * 100) / 100).toFixed(2);
+      e.innerText = Math.round(storageCosts['perYear']);
     });
   }
 }
 
 
 var inputsTemplate = require("ejs-compiled-loader!./parts/inputs.ejs");
-document.getElementById("x-inputs").innerHTML = inputsTemplate();
+document.getElementById("x-inputs").innerHTML = inputsTemplate({
+  'inputs': specs.inputs
+});
 
 var resultsTemplate = require("ejs-compiled-loader!./parts/results.ejs");
 var resultTemplate = require("ejs-compiled-loader!./parts/result.ejs");
 document.getElementById("x-results").innerHTML = resultsTemplate({
   'results': specs.results,
   'resultTemplate': resultTemplate
-});
-
-// TODO: Accordion with Vanilla JS (Bootstrap)
-forEachWithClassName('btn', function(button) {
-  button.onclick = function() {
-    var toggle = this.getAttribute('data-toggle');
-    if (toggle == 'collapse') {
-      var target = this.getAttribute('data-target').slice(1);
-      document.getElementById(target).classList.toggle('show');
-    }
-  };
 });
 
 // Calculation

@@ -23,7 +23,8 @@ module.exports = {
         rules: [
             {
                 test: /\.(scss|css)$/,
-                use: [{ loader: MiniCssExtractPlugin.loader },
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
                     'css-loader',
                     'sass-loader'
                 ]
@@ -32,6 +33,19 @@ module.exports = {
                 test: /\.html$/,
                 exclude: /node_modules/,
                 loader: 'file-loader?name=[name].[ext]'
+            },
+            {
+                test: require.resolve('jquery/dist/jquery.slim'),
+                use: [
+                    {
+                        loader: 'expose-loader',
+                        options: 'jQuery'
+                    },
+                    {
+                        loader: 'expose-loader',
+                        options: '$'
+                    }
+                ]
             }
         ]
     },
@@ -58,6 +72,10 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: 'web/img', to: 'img' },
             { from: 'web/favicon.ico', to: 'favicon.ico' }
-        ])
+        ]),
+        new webpack.ProvidePlugin({
+            $: 'jquery/dist/jquery.slim',
+            jQuery: 'jquery/dist/jquery.slim'
+        })
     ]
 }
