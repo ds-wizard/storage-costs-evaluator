@@ -126,6 +126,18 @@ document.getElementById("x-results").innerHTML = resultsTemplate({
   'resultTemplate': resultTemplate
 });
 
+function toggleDetails() {
+  var details = document.getElementById('x-results');
+  if (details.classList.contains('hide')) {
+    details.classList.remove('hide');
+    this.innerHTML = '<i class="fa fa-eye-slash"></i> Hide details';
+  } else {
+    details.classList.add('hide');
+    this.innerHTML = '<i class="fa fa-eye"></i> Show details';
+  }
+}
+document.getElementById('btn-details').addEventListener('click', toggleDetails);
+
 function evaluate() {
   console.log('Sending inputs to server calculation ...');
   var xhr = new XMLHttpRequest();

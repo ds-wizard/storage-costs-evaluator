@@ -51,3 +51,11 @@ div#middle-row span.total-lifetime,
 div#middle-row span.total-perYear {
     font-weight: bold;
 }
+
+button#btn-details > i.fa {
+    margin-right: 0.3em;
+}
+
+.hide {
+    display:none;
+}
