@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Marek Suchánek">
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="icon" href="static/favicon.ico" type="image/x-icon" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark bg-primary">
+      <span class="navbar-brand">
+        <img src="static/img/dsw-logo.svg" alt="DS Wizard logo">
+        <%= htmlWebpackPlugin.options.title %>
+      </span>
+    </nav>
+
+    <main role="main" class="container" id="main">
+      <div id="x-inputs"></div>
+      <hr>
+        <div class="row" id="middle-row">
+          <div class="col-sm">
+            Total costs:<br><span class="total-lifetime">N/A</span>&nbsp;&euro;
+          </div>
+          <div class="col-sm">
+            Costs per year:<br><span class="total-perYear">N/A</span>&nbsp;&euro;
+          </div>
+          <div class="col-sm">
+            <button class="btn btn-primary" id="btn-details"><i class="fa fa-eye"></i> Show details</button>
+          </div>
+        </div>
+      <hr>
+      <div id="x-results" class="hide"></div>
+      <p class="muted">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculation methodology was made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2019.</p>
+
+    </main>
+  </body>
+</html>

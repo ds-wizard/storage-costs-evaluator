@@ -1,0 +1,25 @@
+<p>The API is very simple, it has only 1 POST endpoint on <code>/</code> that expects JSON:</p>
+
+<pre><code id="resultJSON" class="json">
+{
+  "desiredProperties": {
+    "volume": {"volumeValue": 7, "volumeUnit": "TB"},
+    "lifetime": 10,
+    "dailyChanges": 0.2,
+    "contentType": "FewLargeFiles",
+    "accessType": "RemoteFiles",
+    "dailyReadVolume": 0.3,
+    "repairWithin": "Hours",
+    "repairTimes": "D7H24",
+    "tapeBackup": true,
+    "backupFrequency": "Days",
+    "backupHistory": "Months",
+    "unavailability": "Week",
+    "securityLevel": "OpenData",
+    "whoCanAccess": "OpenAccess",
+    "sharedInfastructure": false
+  },
+  "configVariables": { ... } // optional
+}
+</code></pre>
+          

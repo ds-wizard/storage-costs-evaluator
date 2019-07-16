@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header" id="heading-<%= result.id %>">
+    <h2 class="mb-0">
+      <span class="icon"><i class="fas fa-<%= result.icon %>"></i></span>
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= result.id %>" aria-expanded="false" aria-controls="collapse-<%= result.id %>">
+        <%= result.title %>
+      </button>
+    </h2>
+    <div class="info-box" id="info-<%= result.id %>">
+      <span class="total-value-<%= result.id %>">N/A</span>&nbsp;&euro;
+    </div>
+  </div>
+  <div id="collapse-<%= result.id %>" class="collapse" aria-labelledby="heading-<%= result.id %>" data-parent="#results">
+    <div class="card-body">
+      <table class="table table-result-parts">
+        <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Value</th>
+            <th scope="col">Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% result.parts.forEach(function(part){ %>
+            <tr class="row-<%= part.type %>">
+              <th scope="row"><%= part.title %></th>
+              <td class="value value-<%= result.id %>-<%= part.id %>">N/A</td>
+              <td class="unit"><%= part.unit %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

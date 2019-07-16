@@ -29,8 +29,11 @@ jobs:
   include:
     - stage: build
       script:
+        # Run npm and webpack
+        - npm install
+        - npm run build
         # Build and Test Application
-        - stack --no-terminal --skip-ghc-check test
+        - stack --no-terminal --skip-ghc-check build
         # Build Docker Image
         - docker pull $IMAGE_TAG_LATEST
         - docker build --pull --cache-from $IMAGE_TAG_LATEST -t $IMAGE_TAG .
