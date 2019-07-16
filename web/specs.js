@@ -3,6 +3,7 @@ exports.inputs = [
         'id': 'inputParameters',
         'title': 'Input parameters',
         'show': true,
+        'icon': 'keyboard',
         'fields': [
             {
                 'id': 'volume',
@@ -326,6 +327,7 @@ exports.inputs = [
     {
         'id': 'configuration',
         'title': 'Configuration',
+        'icon': 'cogs',
         'fields': [
             {
                 'id': 'hddCost',
@@ -609,6 +611,7 @@ exports.results = [
     {
         id: 'storageDrives',
         title: 'Storage drives',
+        icon: 'hdd',
         parts: [
             {
                 'id': 'volume',
@@ -663,6 +666,7 @@ exports.results = [
     {
         id: 'storageServers',
         title: 'Storage servers',
+        icon: 'server',
         parts: [
             {
                 'id': 'drives',
@@ -717,6 +721,7 @@ exports.results = [
     {
         id: 'networking',
         title: 'Networking',
+        icon: 'network-wired',
         parts: [
             {
                 'id': 'firewalls',
@@ -771,6 +776,7 @@ exports.results = [
     {
         id: 'tapeBackup',
         title: 'Tape backup',
+        icon: 'database',
         parts: [
             {
                 'id': 'restoreTime',
@@ -861,6 +867,7 @@ exports.results = [
     {
         id: 'setup',
         title: 'Setup',
+        icon: 'tools',
         parts: [
             {
                 'id': 'operatorHours',
@@ -879,6 +886,7 @@ exports.results = [
     {
         id: 'incidentResponse',
         title: 'Incident response',
+        icon: 'first-aid',
         parts: [
             {
                 'id': 'frequency',
@@ -897,6 +905,7 @@ exports.results = [
     {
         id: 'ups',
         title: 'Uninterruptible power supplies',
+        icon: 'bolt',
         parts: [
             {
                 'id': 'totalCosts',

@@ -1,5 +1,10 @@
 require('bootstrap');
 
+import '@fortawesome/fontawesome-free/js/fontawesome';
+import '@fortawesome/fontawesome-free/js/solid';
+import '@fortawesome/fontawesome-free/js/regular';
+//import '@fortawesome/fontawesome-free/js/brands';
+
 var specs = require('./specs.js');
 
 
@@ -76,10 +81,10 @@ function getInputs() {
 
 function processResult(result) {
   var storageCosts = result.storageCosts;
-  for (category in specs.resultMappings) {
+  for (var category in specs.resultMappings) {
     var catClass = specs.resultMappings[category]["_classname"];
 
-    for (item in specs.resultMappings[category]) {
+    for (var item in specs.resultMappings[category]) {
       if (item[0] == '_') continue;
       var itemClass = specs.resultMappings[category][item]["_classname"];
       forEachWithClassName('value-' + catClass + '-' + itemClass, function(e) {

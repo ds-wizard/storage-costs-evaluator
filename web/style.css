@@ -52,7 +52,14 @@ div#middle-row span.total-perYear {
     font-weight: bold;
 }
 
-button#btn-details > i.fa {
+div.card-header span.icon {
+    display: inline-block;
+    font-size: 0.7em;
+    width: 1.2em;
+    text-align: center;
+}
+
+button#btn-details > svg {
     margin-right: 0.3em;
 }
 
