@@ -23,14 +23,14 @@
                       <label for="value-<%= input.id %>-<%= field.id %>"><%= field.title %></label>
                       <div class="input-group">
                           <% if (field.type == 'select') { %>
-                            <select class="custom-select" id="value-<%= input.id %>-<%= field.id %>">
+                            <select class="custom-select evaluator-input" id="value-<%= input.id %>-<%= field.id %>">
                               <% field.options.forEach(function(option){ %>
                                 <option value="<%= option.value %>"<%= (option.value == field.default ? ' selected' : '') %>><%= option.title %></option>
                               <% }); %>
                             </select>
                           <% } else { %>
                             <% var params = field.inputParams == null ? {} : field.inputParams; %>
-                            <input type="<% field.type %>" class="form-control" id="value-<%= input.id %>-<%= field.id %>" value="<%= field.default %>"<% Object.keys(params).forEach(function(param){ %><%= param %>="<%= params[param] %>"<% }); %>>
+                            <input type="<% field.type %>" class="form-control evaluator-input" id="value-<%= input.id %>-<%= field.id %>" value="<%= field.default %>"<% Object.keys(params).forEach(function(param){ %><%= param %>="<%= params[param] %>"<% }); %>>
                           <% } %>
                           
                           <% if (field.unit != null) { %>
@@ -38,7 +38,7 @@
                               <% if (field.unit.type == 'simple') { %>
                                 <span class="input-group-text"><%= field.unit.text %></span>
                               <% } else if (field.unit.type == 'select') { %>
-                                <select class="custom-select" id="unit-<%= input.id %>-<%= field.id %>">
+                                <select class="custom-select evaluator-input" id="unit-<%= input.id %>-<%= field.id %>">
                                   <% field.unit.options.forEach(function(option){ %>
                                     <option value="<%= option.value %>"<%= (option.value == field.unit.default ? ' selected' : '') %>><%= option.title %></option>
                                   <% }); %>

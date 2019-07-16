@@ -126,8 +126,7 @@ document.getElementById("x-results").innerHTML = resultsTemplate({
   'resultTemplate': resultTemplate
 });
 
-// Calculation
-document.getElementById('btnCalculate').onclick = function(){
+function evaluate() {
   console.log('Sending inputs to server calculation ...');
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/');
@@ -141,5 +140,10 @@ document.getElementById('btnCalculate').onclick = function(){
       }
   };
   xhr.send(JSON.stringify(getInputs()));
-};
+}
 
+forEachWithClassName('evaluator-input', function(e) {
+  e.addEventListener('change', evaluate);
+});
+
+evaluate();
