@@ -31,7 +31,7 @@ jobs:
       script:
         # Run npm and webpack
         - npm install
-        - npm run-script build
+        - npm run build
         # Build and Test Application
         - stack --no-terminal --skip-ghc-check build
         # Build Docker Image
