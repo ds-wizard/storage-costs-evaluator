@@ -145,21 +145,17 @@ forEachWithClassName('shared-input', function(e) {
   e.addEventListener('input', syncSharedInputs);
 });
 
-function toggleMore() {
-  var target = document.getElementById(this.getAttribute("data-target"));
-  if (target.classList.contains('hide')) {
-    target.classList.remove('hide');
-    this.classList.remove('collapsed');
-    this.classList.add('shown');
+function toggleResults() {
+  var target = document.getElementById('x-results');
+  if (target.classList.contains('show')) {
+    target.classList.remove('show');
+    this.setAttribute('aria-expanded', false);
   } else {
-    target.classList.add('hide');
-    this.classList.add('collapsed');
-    this.classList.remove('shown');
+    target.classList.add('show');
+    this.setAttribute('aria-expanded', true);
   }
 }
-// forEachWithClassName('toggle-more', function(e) {
-//   e.addEventListener('click', toggleMore);
-// });
+document.getElementById('toggleResults').addEventListener('click', toggleResults);
 
 function evaluate() {
   console.log('Sending inputs to server calculation ...');
