@@ -1,0 +1,71 @@
+<div class="my-container">  
+  <form>
+      <% inputs.properties.parts.forEach(function(part){ if (part.id == "core") { %>
+        <% part.fields.forEach(function(field){ %>
+          <%- inputTemplate({'prefix': 'properties', 'field': field}) %>
+        <% }); %>
+      <% }}); %>
+  </form>
+  
+  <div class="toggle-more" data-toggle="collapse" data-target="#inputProperties" aria-expanded="false">
+    <span>Detailed storage properties</span><span class="chevron chevron-down"><i class="fas fa-chevron-down"></i></span><span class="chevron chevron-up"><i class="fas fa-chevron-up"></i></span>
+  </div>
+</div>
+
+<div class="collapse" id="inputProperties"> 
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+      <% inputs.properties.parts.forEach(function(part){ if (part.id != "core") { %>
+        <li class="nav-item">
+            <a class="nav-link<%= (part.id == 'usage') ? ' active': '' %>" id="<%= part.id %>-tab" data-toggle="tab" href="#<%= part.id %>" role="tab" aria-controls="<%= part.id %>" aria-selected="false"><%= part.title %></a>
+        </li>
+      <% }}); %>
+    </ul>
+  </div>
+  <div class="card-body">
+  <div class="tab-content">
+      <% inputs.properties.parts.forEach(function(part){ if (part.id != "core") { %>
+        <div class="tab-pane fade<%= (part.id == 'usage') ? ' show active' : '' %>" id="<%= part.id %>" role="tabpanel" aria-labelledby="<%= part.id %>-tab">
+          <form class="form-horizontal form-inputs">
+            <% part.fields.forEach(function(field){ %>
+              <%- inputTemplate({'prefix': 'properties', 'field': field}) %>
+            <% }); %>
+          </form>
+        </div>
+      <% }}); %>
+    </div>
+    </div>
+  </div>
+  
+  <div class="toggle-more"  data-toggle="collapse" data-target="#configuration" aria-expanded="false">
+    <span>Configuration settings (expert)</span>
+    <span class="chevron chevron-down"><i class="fas fa-chevron-down"></i></span>
+    <span class="chevron chevron-up"><i class="fas fa-chevron-up"></i></span>
+  </div>
+
+  <div class="card collapse" id="configuration">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+      <% inputs.configuration.parts.forEach(function(part){ if (part.id != "core") { %>
+        <li class="nav-item">
+            <a class="nav-link<%= (part.id == 'general') ? ' active': '' %>" id="<%= part.id %>-tab" data-toggle="tab" href="#<%= part.id %>" role="tab" aria-controls="<%= part.id %>" aria-selected="false"><%= part.title %></a>
+        </li>
+      <% }}); %>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="tab-content">
+        <% inputs.configuration.parts.forEach(function(part){ if (part.id != "core") { %>
+          <div class="tab-pane fade<%= (part.id == 'general') ? ' show active' : '' %>" id="<%= part.id %>" role="tabpanel" aria-labelledby="<%= part.id %>-tab">
+            <form class="form-horizontal form-inputs">
+              <% part.fields.forEach(function(field){ %>
+                <%- inputTemplate({'prefix': 'configuration', 'field': field}) %>
+              <% }); %>
+            </form>
+          </div>
+        <% }}); %>
+    </div>
+  </div>
+</div>
+</div>

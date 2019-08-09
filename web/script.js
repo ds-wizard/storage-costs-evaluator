@@ -18,7 +18,7 @@ function forEachWithClassName(classname, func) {
 // TODO: nicer mapping with API request object
 function getDesiredProperties() {
   function getDesiredProperty(id, what='value'){
-    return document.getElementById(what + '-inputParameters-' + id);
+    return document.getElementById(what + '-properties-' + id);
   }
 
   return {
@@ -119,9 +119,11 @@ function processResult(result) {
 }
 
 
-var inputsTemplate = require("ejs-compiled-loader!./parts/inputs.ejs");
+var inputsTemplate = require("ejs-compiled-loader!./parts/properties.ejs");
+var inputTemplate = require("ejs-compiled-loader!./parts/input.ejs");
 document.getElementById("x-inputs").innerHTML = inputsTemplate({
-  'inputs': specs.inputs
+  'inputs': specs.inputs,
+  'inputTemplate': inputTemplate
 });
 
 var resultsTemplate = require("ejs-compiled-loader!./parts/results.ejs");
@@ -131,17 +133,33 @@ document.getElementById("x-results").innerHTML = resultsTemplate({
   'resultTemplate': resultTemplate
 });
 
-function toggleDetails() {
-  var details = document.getElementById('x-results');
-  if (details.classList.contains('hide')) {
-    details.classList.remove('hide');
-    this.innerHTML = '<i class="fa fa-eye-slash"></i> Hide details';
+function syncSharedInputs() {
+  if (!this.hasAttribute("data-share")) return;
+  var suffixID = this.getAttribute("data-share");
+  var value = this.value;
+  document.getElementById('value-'+suffixID).value = value;
+  document.getElementById('range-'+suffixID).value = value;
+}
+forEachWithClassName('shared-input', function(e) {
+  e.addEventListener('change', syncSharedInputs);
+  e.addEventListener('input', syncSharedInputs);
+});
+
+function toggleMore() {
+  var target = document.getElementById(this.getAttribute("data-target"));
+  if (target.classList.contains('hide')) {
+    target.classList.remove('hide');
+    this.classList.remove('collapsed');
+    this.classList.add('shown');
   } else {
-    details.classList.add('hide');
-    this.innerHTML = '<i class="fa fa-eye"></i> Show details';
+    target.classList.add('hide');
+    this.classList.add('collapsed');
+    this.classList.remove('shown');
   }
 }
-document.getElementById('btn-details').addEventListener('click', toggleDetails);
+// forEachWithClassName('toggle-more', function(e) {
+//   e.addEventListener('click', toggleMore);
+// });
 
 function evaluate() {
   console.log('Sending inputs to server calculation ...');

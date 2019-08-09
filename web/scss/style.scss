@@ -1,0 +1,237 @@
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+code {
+    font-family: monospace;
+}
+body {
+    padding-top: 20ex;
+    padding-bottom: 2ex;
+}
+main {
+    min-height: calc(100vh - 36ex);
+}
+footer.my-container {
+    color: #666;
+    text-align: justify;
+    margin-top: 3ex;
+    padding-top: 1ex;
+    border-top: 1px solid #EEE;
+    height: 9ex;
+}
+
+nav.navbar {
+    margin-bottom: 0.6em;
+    height: 8ex;
+}
+.navbar-brand > img {
+    max-height: 1.5em;
+    max-width: 3em;
+}
+
+div.input-group-append > select {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+div.card-header > h2{
+    float:left;
+}
+div.card-header > .info-box {
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    vertical-align: middle;
+    float:right;
+}
+div.card-header > .info-box span.chevron {
+    margin-left: 1em;
+    vertical-align: middle;
+}
+div.card-header[aria-expanded="true"] > .info-box span.chevron-down,
+div.card-header[aria-expanded="false"] > .info-box span.chevron-up {
+    display: none;
+}
+div.card-header[aria-expanded="true"] > .info-box span.chevron-up,
+div.card-header[aria-expanded="false"] > .info-box span.chevron-down {
+    display: inline;
+}
+
+div#x-results {
+    background: #EEE;
+    position: fixed;
+    top: 16ex;
+    right: 0;
+    width: 100%;
+    padding: 3ex;
+    z-index: 100;
+    overflow: auto;
+    height: calc(100vh - 16ex);
+}
+div#results > div.card div.card-body {
+    padding: 0;
+}
+div.card h2 > span.title {
+    padding-left: 0.3em;
+    font-size: 0.5em;
+}
+div.card > div.card-header {
+    cursor: pointer;
+}
+div#results > div.card h2,
+div#results > div.card h2 > span.icon,
+div#results > div.card h2 > span.title {
+    vertical-align: middle;
+}
+table.table-result-parts {
+    margin: 0;
+}
+table.table-result-parts > thead {
+    display: none;
+}
+table.table-result-parts > tbody > tr > td.value {
+    text-align: right;
+}
+table.table-result-parts > tbody > tr > td.unit {
+    width: 13ch;
+}
+table.table-result-parts > tbody > tr.row-subtotal {
+    background-color: rgba(0,0,0,.03);
+}
+table.table-result-parts > tbody > tr > th {
+    font-weight: normal;
+}
+table.table-result-parts > tbody > tr.row-subtotal > th {
+    font-weight: bold;
+}
+
+
+div#results-bar {
+    background-color: #EEE;
+    padding: 2ex;
+    top: 8ex;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    text-align: center;
+}
+div#results-bar > div.row > div.col-sm {
+    text-align: center;
+}
+div#results-bar span.total-lifetime,
+div#results-bar span.total-perYear {
+    font-weight: bold;
+}
+div#results-bar div.toggle-more {
+    color: $primary;
+}
+
+div.card-header span.icon {
+    display: inline-block;
+    font-size: 0.7em;
+    width: 1.2em;
+    text-align: center;
+}
+
+button#btn-details > svg {
+    margin-right: 0.3em;
+}
+
+.hide {
+    display: none;
+}
+
+input[type=range] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100%; /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
+  }
+  
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  }
+  
+  input[type=range]:focus {
+    outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  }
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 3ex;
+    width: 3ex;
+    border-radius: 1.5ex;
+    background:  $primary;
+    border: 2px solid white;
+    cursor: pointer;
+    margin-top: -0.5em;
+  }
+  
+  /* All the same stuff for Firefox */
+  input[type=range]::-moz-range-thumb {
+    height: 3ex;
+    width: 3ex;
+    border-radius: 1.5ex;
+    background:  $primary;
+    border: 2px solid white;
+    cursor: pointer;
+  }
+  
+  /* All the same stuff for IE */
+  input[type=range]::-ms-thumb {
+    height: 3ex;
+    width: 3ex;
+    border-radius: 1.5ex;
+    background: $primary;
+    border: 2px solid white;
+    cursor: pointer;
+  }
+
+  div.toggle-more {
+    text-align: center;
+    color: $primary;
+    cursor: pointer;
+  }
+  div.toggle-more > span.chevron {
+    margin-left: 1ex;
+  }
+
+div.toggle-more[aria-expanded="true"] > span.chevron-down,
+div.toggle-more[aria-expanded="false"] > span.chevron-up {
+    display: none;
+}
+div.toggle-more[aria-expanded="true"] > span.chevron-up,
+div.toggle-more[aria-expanded="false"] > span.chevron-down {
+    display: inline;
+}
+
+  div#x-inputs div.toggle-more {
+      margin-top: 2em;
+      margin-bottom: 1em;
+  }
+
+  select.custom-select{
+      background: none;
+  }
+
+  div.tab-pane {
+      padding: 1em;
+      margin: 0 auto;
+      max-width: 40em;
+  }
+
+  .my-container {
+      margin: 0 auto;
+      max-width: 50em;
+  }
+
+  input.evaluator-input {
+      min-width: 10ex;
+  }
+
+  label.label-range,
+  div#inputProperties,
+  footer {
+      padding-left: 15px;
+      padding-right: 15px;
+  }
