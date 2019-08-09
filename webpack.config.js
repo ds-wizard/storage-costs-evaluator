@@ -9,7 +9,6 @@ var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 module.exports = {
     entry: [
         './web/scss/main.scss',
-        './web/style.css',
         './web/script.js',
         './web/specs.js'
     ],

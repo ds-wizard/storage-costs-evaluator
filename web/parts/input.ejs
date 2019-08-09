@@ -1,0 +1,46 @@
+<div class="form-group">
+  <% if (field.hasOwnProperty('range')) { %>
+  <label for="value-<%= prefix %>-<%= field.id %>" class="label-range"><%= field.title %></label>
+  <div class="input-group">
+  <div class="col-8 d-flex align-items-center">
+    <input type="range" class="custom-range shared-input evaluator-input" id="range-<%= prefix %>-<%= field.id %>"
+           data-share="<%= prefix %>-<%= field.id %>" min="<%= field.range.min %>" max="<%= field.range.max %>" value="<%= field.default %>">
+  </div>
+  <div class="input-group col-4">
+  <% } else { %>
+  <label for="value-<%= prefix %>-<%= field.id %>"><%= field.title %></label>
+  <div class="input-group">
+  <% } %>
+      <% if (field.type == 'select') { %>
+        <select class="custom-select evaluator-input" id="value-<%= prefix %>-<%= field.id %>">
+          <% field.options.forEach(function(option){ %>
+            <option value="<%= option.value %>"<%= (option.value == field.default ? ' selected' : '') %>><%= option.title %></option>
+          <% }); %>
+        </select>
+      <% } else { %>
+        <% var params = field.inputParams == null ? {} : field.inputParams; %>
+        <input type="<%= field.type %>" class="form-control evaluator-input" id="value-<%= prefix %>-<%= field.id %>" value="<%= field.default %>"<% Object.keys(params).forEach(function(param){ %><%= param %>="<%= params[param] %>"<% }); %>>
+      <% } %>
+      
+      <% if (field.unit != null) { %>
+        <div class="input-group-append">
+          <% if (field.unit.type == 'simple') { %>
+            <span class="input-group-text"><%= field.unit.text %></span>
+          <% } else if (field.unit.type == 'select') { %>
+            <select class="custom-select evaluator-input" id="unit-<%= prefix %>-<%= field.id %>">
+              <% field.unit.options.forEach(function(option){ %>
+                <option value="<%= option.value %>"<%= (option.value == field.unit.default ? ' selected' : '') %>><%= option.title %></option>
+              <% }); %>
+            </select>
+          <% } %>
+        </div>
+      <% } %>
+    </div>
+    <% if (field.hasOwnProperty('range')) { %>
+    </div>
+    <% } %>
+
+    <% if (field.help != null) { %>
+      <small id="help-<%= prefix %>-<%= field.id %>" class="form-text text-muted"><%= field.help %></small>
+    <% } %>
+</div>

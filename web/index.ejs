@@ -13,31 +13,32 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-dark bg-primary">
+    <nav class="navbar fixed-top navbar-dark bg-primary">
       <span class="navbar-brand">
         <img src="static/img/dsw-logo.svg" alt="DS Wizard logo">
         <%= htmlWebpackPlugin.options.title %>
       </span>
     </nav>
 
-    <main role="main" class="container" id="main">
-      <div id="x-inputs"></div>
-      <hr>
-        <div class="row" id="middle-row">
-          <div class="col-sm">
+    <main role="main" id="main">
+      <div id="results-bar">
+        <div class="my-container row">
+          <div class="col">
             Total costs:<br><span class="total-lifetime">N/A</span>&nbsp;&euro;
           </div>
-          <div class="col-sm">
-            Costs per year:<br><span class="total-perYear">N/A</span>&nbsp;&euro;
+          <div class="col">
+            TB costs per year:<br><span class="total-perYear">N/A</span>&nbsp;&euro;
           </div>
-          <div class="col-sm">
-            <button class="btn btn-primary" id="btn-details"><i class="fa fa-eye"></i> Show details</button>
+          <div class="col">
+            <div class="toggle-more" data-toggle="collapse" data-target="#x-results" aria-expanded="false">
+              <span>Result details</span><br><span class="chevron chevron-down"><i class="fas fa-chevron-down"></i></span><span class="chevron chevron-up"><i class="fas fa-chevron-up"></i></span>
+            </div>
           </div>
         </div>
-      <hr>
-      <div id="x-results" class="hide"></div>
-      <p class="muted">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculation methodology was made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2019.</p>
-
+      </div>
+      <div id="x-inputs" class="my-container"></div>
+      <div id="x-results" class="collapse"></div>
     </main>
+    <footer class="my-container">This service provides simple estimation of storage costs based on desired properties and local/actual configuration. Calculation methodology was made by Rob Hooft from <a href="https://www.dtls.nl" target="_blank">DTL (NL)</a> and designated as valid in 2019. For more information, visit <a href="https://ds-wizard.org">ds-wizard.org</a> or <a href="https://github.com/ds-wizard/storage-costs-evaluator">our GitHub</a>.</footer>
   </body>
 </html>

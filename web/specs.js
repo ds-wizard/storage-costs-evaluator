@@ -1,13 +1,373 @@
-exports.inputs = [
-    {
+exports.inputs = {
+    'properties': {
         'id': 'inputParameters',
         'title': 'Input parameters',
-        'show': true,
         'icon': 'keyboard',
+        'parts': [
+            {
+                'id': 'core',
+                'title': '',
+                'fields': [
+                    {
+                        'id': 'volume',
+                        'title': 'Volume',
+                        'range': {
+                            'min': 0,
+                            'max': 1000,
+                        },
+                        'type': 'number',
+                        'default': 500,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'select',
+                            'default': 'GB',
+                            'options': [
+                                {
+                                    'value': 'GB',
+                                    'title': 'GB'
+                                },
+                                {
+                                    'value': 'TB',
+                                    'title': 'TB'
+                                },
+                                {
+                                    'value': 'PB',
+                                    'title': 'PB'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        'id': 'lifetime',
+                        'title': 'Lifetime',
+                        'range': {
+                            'min': 0,
+                            'max': 50
+                        },
+                        'type': 'number',
+                        'default': 10,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'years'
+                        }
+                    }
+                ]
+            },
+            {
+                'id':  'usage',
+                'title': 'Usage',
+                'fields': [
+                    {
+                        'id': 'dailyChanges',
+                        'title': 'Daily changes',
+                        'type': 'number',
+                        'default': 10,
+                        'inputParams': {
+                            'min': 0,
+                            'max': 100
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '%'
+                        }
+                    },
+                    {
+                        'id': 'contentType',
+                        'title': 'Content type',
+                        'type': 'select',
+                        'default': 'ManySmallFiles',
+                        'options': [
+                            {
+                                'value': 'ManySmallFiles',
+                                'title': 'Many small files'
+                            },
+                            {
+                                'value': 'FewLargeFiles',
+                                'title': 'Few large files'
+                            },
+                            {
+                                'value': 'Database',
+                                'title': 'Database'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'accessType',
+                        'title': 'Access type',
+                        'type': 'select',
+                        'default': 'OneFileOnRequest',
+                        'options': [
+                            {
+                                'value': 'OneFileOnRequest',
+                                'title': 'One file on request'
+                            },
+                            {
+                                'value': 'RemoteFiles',
+                                'title': 'Remote files'
+                            },
+                            {
+                                'value': 'Database',
+                                'title': 'Database'
+                            },
+                            {
+                                'value': 'Website',
+                                'title': 'Website'
+                            },
+                            {
+                                'value': 'CalculationServer',
+                                'title': 'Calculation server'
+                            },
+                            {
+                                'value': 'HighPerformance',
+                                'title': 'High performance'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'dailyReadVolume',
+                        'title': 'Daily read volume',
+                        'type': 'number',
+                        'default': 10,
+                        'inputParams': {
+                            'min': 0,
+                            'max': 100
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '%'
+                        }
+                    },
+                ]
+            },
+            {
+                'id': 'backup',
+                'title': 'Backup',
+                'fields': [
+                    {
+                        'id': 'tapeBackup',
+                        'title': 'Tape backup',
+                        'type': 'select',
+                        'default': 'yes',
+                        'options': [
+                            {
+                                'value': 'yes',
+                                'title': 'Yes'
+                            },
+                            {
+                                'value': 'no',
+                                'title': 'No'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'backupFrequency',
+                        'title': 'Backup frequency',
+                        'type': 'select',
+                        'default': 'Days',
+                        'options': [
+                            {
+                                'value': 'Hours',
+                                'title': 'Hours'
+                            },
+                            {
+                                'value': 'Days',
+                                'title': 'Days'
+                            },
+                            {
+                                'value': 'Weeks',
+                                'title': 'Weeks'
+                            },
+                            {
+                                'value': 'Months',
+                                'title': 'Months'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'backupHistory',
+                        'title': 'Backup history',
+                        'type': 'select',
+                        'default': 'Months',
+                        'options': [
+                            {
+                                'value': 'Hours',
+                                'title': 'Hours'
+                            },
+                            {
+                                'value': 'Days',
+                                'title': 'Days'
+                            },
+                            {
+                                'value': 'Weeks',
+                                'title': 'Weeks'
+                            },
+                            {
+                                'value': 'Months',
+                                'title': 'Months'
+                            },
+                            {
+                                'value': 'Years',
+                                'title': 'Years'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'id': 'recovery',
+                'title': 'Recovery',
+                'fields': [
+                    {
+                        'id': 'repairWithin',
+                        'title': 'Repair within',
+                        'type': 'select',
+                        'default': 'Hours',
+                        'options': [
+                            {
+                                'value': 'Seconds',
+                                'title': 'Seconds'
+                            },
+                            {
+                                'value': 'Minutes',
+                                'title': 'Minutes'
+                            },
+                            {
+                                'value': 'Hours',
+                                'title': 'Hours'
+                            },
+                            {
+                                'value': 'Days',
+                                'title': 'Days'
+                            },
+                            {
+                                'value': 'Weeks',
+                                'title': 'Weeks'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'repairTimes',
+                        'title': 'Repair times',
+                        'type': 'select',
+                        'default': 'D7H24',
+                        'options': [
+                            {
+                                'value': 'D5H8',
+                                'title': '8/5'
+                            },
+                            {
+                                'value': 'D5H10',
+                                'title': '10/5'
+                            },
+                            {
+                                'value': 'D7H24',
+                                'title': '24/7'
+                            }
+                        ],
+                        'help': 'H/D = H hours per day, D days per week.'
+                    },
+                    {
+                        'id': 'unavailability',
+                        'title': 'Unavailability (per year)',
+                        'type': 'select',
+                        'default': 'Hour',
+                        'options': [
+                            {
+                                'value': 'Hour',
+                                'title': 'Hour'
+                            },
+                            {
+                                'value': 'Day',
+                                'title': 'Day'
+                            },
+                            {
+                                'value': 'Week',
+                                'title': 'Week'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                'id': 'security',
+                'title': 'Security',
+                'fields': [
+                    {
+                        'id': 'securityLevel',
+                        'title': 'Security level',
+                        'category': 'security',
+                        'type': 'select',
+                        'default': 'OpenData',
+                        'options': [
+                            {
+                                'value': 'OpenData',
+                                'title': 'Open data'
+                            },
+                            {
+                                'value': 'ClosedData',
+                                'title': 'Closed data'
+                            },
+                            {
+                                'value': 'PrivacySensitive',
+                                'title': 'Privacy sensitive'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'whoCanAccess',
+                        'title': 'Who can access',
+                        'category': 'security',
+                        'type': 'select',
+                        'default': 'OpenAccess',
+                        'options': [
+                            {
+                                'value': 'OnlyMe',
+                                'title': 'Only me'
+                            },
+                            {
+                                'value': 'LocalCollaborators',
+                                'title': 'Local collaborators'
+                            },
+                            {
+                                'value': 'AuthorizedPeople',
+                                'title': 'Authorized people'
+                            },
+                            {
+                                'value': 'OpenAccess',
+                                'title': 'Open access'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 'sharedInfrastracture',
+                        'title': 'Shared infrastructure',
+                        'category': 'security',
+                        'type': 'select',
+                        'default': 'yes',
+                        'options': [
+                            {
+                                'value': 'yes',
+                                'title': 'Yes'
+                            },
+                            {
+                                'value': 'no',
+                                'title': 'No'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
         'fields': [
             {
                 'id': 'volume',
                 'title': 'Volume',
+                'category': 'core',
                 'type': 'number',
                 'default': 0,
                 'inputParams': {
@@ -35,6 +395,7 @@ exports.inputs = [
             {
                 'id': 'lifetime',
                 'title': 'Lifetime',
+                'category': 'core',
                 'type': 'number',
                 'default': 0,
                 'inputParams': {
@@ -48,6 +409,7 @@ exports.inputs = [
             {
                 'id': 'dailyChanges',
                 'title': 'Daily changes',
+                'category': 'usage',
                 'type': 'number',
                 'default': 10,
                 'inputParams': {
@@ -62,6 +424,7 @@ exports.inputs = [
             {
                 'id': 'contentType',
                 'title': 'Content type',
+                'category': 'usage',
                 'type': 'select',
                 'default': 'ManySmallFiles',
                 'options': [
@@ -82,6 +445,7 @@ exports.inputs = [
             {
                 'id': 'accessType',
                 'title': 'Access type',
+                'category': 'usage',
                 'type': 'select',
                 'default': 'OneFileOnRequest',
                 'options': [
@@ -114,6 +478,7 @@ exports.inputs = [
             {
                 'id': 'dailyReadVolume',
                 'title': 'Daily read volume',
+                'category': 'usage',
                 'type': 'number',
                 'default': 10,
                 'inputParams': {
@@ -128,6 +493,7 @@ exports.inputs = [
             {
                 'id': 'repairWithin',
                 'title': 'Repair within',
+                'category': 'recovery',
                 'type': 'select',
                 'default': 'Hours',
                 'options': [
@@ -156,6 +522,7 @@ exports.inputs = [
             {
                 'id': 'repairTimes',
                 'title': 'Repair times',
+                'category': 'recovery',
                 'type': 'select',
                 'default': 'D7H24',
                 'options': [
@@ -177,6 +544,7 @@ exports.inputs = [
             {
                 'id': 'tapeBackup',
                 'title': 'Tape backup',
+                'category': 'backup',
                 'type': 'select',
                 'default': 'yes',
                 'options': [
@@ -193,6 +561,7 @@ exports.inputs = [
             {
                 'id': 'backupFrequency',
                 'title': 'Backup frequency',
+                'category': 'backup',
                 'type': 'select',
                 'default': 'Days',
                 'options': [
@@ -217,6 +586,7 @@ exports.inputs = [
             {
                 'id': 'backupHistory',
                 'title': 'Backup history',
+                'category': 'backup',
                 'type': 'select',
                 'default': 'Months',
                 'options': [
@@ -245,6 +615,7 @@ exports.inputs = [
             {
                 'id': 'unavailability',
                 'title': 'Unavailability (per year)',
+                'category': 'recovery',
                 'type': 'select',
                 'default': 'Hour',
                 'options': [
@@ -265,6 +636,7 @@ exports.inputs = [
             {
                 'id': 'securityLevel',
                 'title': 'Security level',
+                'category': 'security',
                 'type': 'select',
                 'default': 'OpenData',
                 'options': [
@@ -285,6 +657,7 @@ exports.inputs = [
             {
                 'id': 'whoCanAccess',
                 'title': 'Who can access',
+                'category': 'security',
                 'type': 'select',
                 'default': 'OpenAccess',
                 'options': [
@@ -309,6 +682,7 @@ exports.inputs = [
             {
                 'id': 'sharedInfrastracture',
                 'title': 'Shared infrastructure',
+                'category': 'security',
                 'type': 'select',
                 'default': 'yes',
                 'options': [
@@ -324,10 +698,316 @@ exports.inputs = [
             }
         ]
     },
-    {
+    'configuration': {
         'id': 'configuration',
         'title': 'Configuration',
         'icon': 'cogs',
+        'parts': [
+            {
+                'id': 'general',
+                'title': 'General',
+                'fields': [
+                    {
+                        'id': 'electricityCost',
+                        'title': 'Electricity cost',
+                        'type': 'number',
+                        'default': 0.14,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€ / kWh'
+                        }
+                    },
+                    {
+                        'id': 'powerEfficiency',
+                        'title': 'Power efficiency',
+                        'type': 'number',
+                        'default': 70,
+                        'inputParams': {
+                            'min': 0,
+                            'max': 100
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '%'
+                        }
+                    },
+                    {
+                        'id': 'costMHR',
+                        'title': 'Cost of 1 manhour',
+                        'type': 'number',
+                        'default': 70,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€'
+                        }
+                    }
+                ]
+            },
+            {
+                'id': 'hdds',
+                'title': 'HDDs',
+                'fields': [
+                    {
+                        'id': 'hddCost',
+                        'title': 'HDD cost',
+                        'type': 'number',
+                        'default': 30,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€ / TB'
+                        }
+                    },
+                    {
+                        'id': 'hddSize',
+                        'title': 'HDD size',
+                        'type': 'number',
+                        'default': 10,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'TB'
+                        }
+                    },
+                    {
+                        'id': 'hddPower',
+                        'title': 'HDD power consumption',
+                        'type': 'number',
+                        'default': 1.5,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'Watt / TB'
+                        }
+                    },
+                    {
+                        'id': 'lifetimeHDD',
+                        'title': 'Lifetime HDD',
+                        'type': 'number',
+                        'default': 3,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'years'
+                        }
+                    }
+                ]
+            },
+            {
+                'id': 'servers',
+                'title': 'Servers',
+                'fields': [
+                    {
+                        'id': 'storageServer',
+                        'title': 'Storage server cost',
+                        'type': 'number',
+                        'default': 5000,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€'
+                        }
+                    },
+                    {
+                        'id': 'storageRack',
+                        'title': 'Storage rack cost',
+                        'type': 'number',
+                        'default': 2000,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€ / year'
+                        }
+                    },
+                    {
+                        'id': 'serverPower',
+                        'title': 'Server power consumption',
+                        'type': 'number',
+                        'default': 200,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'Watt'
+                        }
+                    },
+                    {
+                        'id': 'lifetimeServer',
+                        'title': 'Lifetime server',
+                        'type': 'number',
+                        'default': 5,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'years'
+                        }
+                    },
+                    {
+                        'id': 'ups',
+                        'title': 'UPS cost',
+                        'type': 'number',
+                        'default': 0.2,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€ / Watt / month'
+                        }
+                    }
+                ]
+            },
+            {
+                'id': 'backupTapes',
+                'title': 'Backup tapes',
+                'fields': [
+                    {
+                        'id': 'tapeSpeed',
+                        'title': 'Tape speed',
+                        'type': 'number',
+                        'default': 432,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'GB / hour'
+                        }
+                    },
+                    {
+                        'id': 'tapeCapacity',
+                        'title': 'Tape capacity',
+                        'type': 'number',
+                        'default': 15,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'TB'
+                        }
+                    },
+                    {
+                        'id': 'tapeCost',
+                        'title': 'Tape cost',
+                        'type': 'number',
+                        'default': 150,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€'
+                        }
+                    },
+                    {
+                        'id': 'tapeDriveCost',
+                        'title': 'Tape drive cost',
+                        'type': 'number',
+                        'default': 3000,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€'
+                        }
+                    },
+                    {
+                        'id': 'tapeRobotCost',
+                        'title': 'Tape robot cost',
+                        'type': 'number',
+                        'default': 5000,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€'
+                        }
+                    }
+                ]
+            },
+            {
+                'id': 'networking',
+                'title': 'Networking',
+                'fields': [
+                    {
+                        'id': 'networkCost',
+                        'title': 'Network cost',
+                        'type': 'number',
+                        'default': 0.5,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€ / TB'
+                        }
+                    },
+                    {
+                        'id': 'networkPortRent',
+                        'title': 'Network port rent cost',
+                        'type': 'number',
+                        'default': 10,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€ / month'
+                        }
+                    },
+                    {
+                        'id': 'firewallCost',
+                        'title': 'Firewall cost',
+                        'type': 'number',
+                        'default': 1000,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': '€'
+                        }
+                    },
+                    {
+                        'id': 'firewallMaintenance',
+                        'title': 'Firewall maintenance',
+                        'type': 'number',
+                        'default': 0.1,
+                        'inputParams': {
+                            'min': 0
+                        },
+                        'unit': {
+                            'type': 'simple',
+                            'text': 'hours / month'
+                        }
+                    }
+                ]
+            }
+        ],
         'fields': [
             {
                 'id': 'hddCost',
@@ -605,7 +1285,7 @@ exports.inputs = [
             }
         ]
     }
-]
+}
 
 exports.results = [
     {
