@@ -19,14 +19,12 @@ footer.my-container {
     border-top: 1px solid #EEE;
     height: 9ex;
 }
-
-nav.navbar {
-    margin-bottom: 0.6em;
-    height: 8ex;
-}
-.navbar-brand > img {
-    max-height: 1.5em;
-    max-width: 3em;
+span.navbar-brand {
+    background-image: url(/static/img/dsw-logo.svg);
+    background-repeat: no-repeat;
+    background-size: 35px;
+    background-position: left center;
+    padding-left: 45px;
 }
 
 div.input-group-append > select {
@@ -108,7 +106,7 @@ table.table-result-parts > tbody > tr.row-subtotal > th {
 div#results-bar {
     background-color: #EEE;
     padding: 2ex;
-    top: 8ex;
+    top: 7ex;
     position: fixed;
     right: 0;
     width: 100%;
