@@ -79,6 +79,10 @@ function getInputs() {
   }
 }
 
+function formatTotal(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
 function processResult(result) {
   var storageCosts = result.storageCosts;
   for (var category in specs.resultMappings) {
@@ -105,15 +109,15 @@ function processResult(result) {
       sum += parseFloat(storageCosts[category][subtotals[i]]);
     }
     forEachWithClassName('total-value-' + catClass, function(e) {
-      e.innerText = Math.round(sum);
+      e.innerText = formatTotal(Math.round(sum));
     });
 
     forEachWithClassName('total-lifetime', function(e) {
-      e.innerText = Math.round(storageCosts['total']);
+      e.innerText = formatTotal(Math.round(storageCosts['total']));
     });
 
     forEachWithClassName('total-perYear', function(e) {
-      e.innerText = Math.round(storageCosts['perYear']);
+      e.innerText = formatTotal(Math.round(storageCosts['perYear']));
     });
   }
 }
@@ -157,7 +161,10 @@ function toggleResults() {
 }
 document.getElementById('toggleResults').addEventListener('click', toggleResults);
 
+var evaluating = false;
 function evaluate() {
+  if (evaluating) return;
+  evaluating = true;
   console.log('Sending inputs to server calculation ...');
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/');
@@ -169,12 +176,14 @@ function evaluate() {
       } else {
         console.log('Request failed - returned status of ' + xhr.status);
       }
+      evaluating = false;
   };
   xhr.send(JSON.stringify(getInputs()));
 }
 
 forEachWithClassName('evaluator-input', function(e) {
   e.addEventListener('change', evaluate);
+  e.addEventListener('input', evaluate);
 });
 
 evaluate();
