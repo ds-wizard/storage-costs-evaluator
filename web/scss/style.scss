@@ -16,7 +16,7 @@ footer.my-container {
     text-align: justify;
     margin-top: 3ex;
     padding-top: 1ex;
-    border-top: 1px solid #EEE;
+    border-top: 1px solid $light;
     height: 9ex;
 }
 span.navbar-brand {
@@ -55,7 +55,7 @@ div.card-header[aria-expanded="false"] > .info-box span.chevron-down {
 }
 
 div#x-results {
-    background: #EEE;
+    background: $light;
     position: fixed;
     top: 16ex;
     right: 0;
@@ -93,7 +93,7 @@ table.table-result-parts > tbody > tr > td.unit {
     width: 13ch;
 }
 table.table-result-parts > tbody > tr.row-subtotal {
-    background-color: rgba(0,0,0,.03);
+    background-color: rgba(0,0,0,.01);
 }
 table.table-result-parts > tbody > tr > th {
     font-weight: normal;
@@ -104,7 +104,7 @@ table.table-result-parts > tbody > tr.row-subtotal > th {
 
 
 div#results-bar {
-    background-color: #EEE;
+    background-color: $light;
     padding: 2ex;
     top: 7ex;
     position: fixed;
