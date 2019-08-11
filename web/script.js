@@ -79,6 +79,10 @@ function getInputs() {
   }
 }
 
+function formatTotal(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
 function processResult(result) {
   var storageCosts = result.storageCosts;
   for (var category in specs.resultMappings) {
@@ -105,15 +109,15 @@ function processResult(result) {
       sum += parseFloat(storageCosts[category][subtotals[i]]);
     }
     forEachWithClassName('total-value-' + catClass, function(e) {
-      e.innerText = Math.round(sum);
+      e.innerText = formatTotal(Math.round(sum));
     });
 
     forEachWithClassName('total-lifetime', function(e) {
-      e.innerText = Math.round(storageCosts['total']);
+      e.innerText = formatTotal(Math.round(storageCosts['total']));
     });
 
     forEachWithClassName('total-perYear', function(e) {
-      e.innerText = Math.round(storageCosts['perYear']);
+      e.innerText = formatTotal(Math.round(storageCosts['perYear']));
     });
   }
 }
