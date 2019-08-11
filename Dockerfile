@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 WORKDIR /srv
 
-RUN apt-get update && apt-get -qq -y install libsass sassc
+RUN apt-get update && apt-get -qq -y install sassc
 
 ADD dist /srv/dist
 ADD .stack-work/install/x86_64-linux/lts-12.5/8.4.3/bin/storage-costs-evaluator /srv/storage-costs-evaluator
