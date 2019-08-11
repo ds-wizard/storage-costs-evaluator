@@ -161,7 +161,10 @@ function toggleResults() {
 }
 document.getElementById('toggleResults').addEventListener('click', toggleResults);
 
+var evaluating = false;
 function evaluate() {
+  if (evaluating) return;
+  evaluating = true;
   console.log('Sending inputs to server calculation ...');
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/');
@@ -173,12 +176,14 @@ function evaluate() {
       } else {
         console.log('Request failed - returned status of ' + xhr.status);
       }
+      evaluating = false;
   };
   xhr.send(JSON.stringify(getInputs()));
 }
 
 forEachWithClassName('evaluator-input', function(e) {
   e.addEventListener('change', evaluate);
+  e.addEventListener('input', evaluate);
 });
 
 evaluate();
