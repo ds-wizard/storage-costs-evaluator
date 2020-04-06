@@ -35,7 +35,7 @@ data AccessType = OneFileOnRequest
                 | WebSite
                 | CalculationServer
                 | HighPerformance
-                 deriving (Show, Read, Eq)
+                deriving (Show, Read, Eq)
 
 data TimeHorizon = Seconds
                  | Minutes
@@ -44,7 +44,7 @@ data TimeHorizon = Seconds
                  | Weeks
                  | Months
                  | Years
-                  deriving (Show, Read, Eq)
+                 deriving (Show, Read, Eq)
 
 toHours :: TimeHorizon -> Double
 toHours Seconds = 1/3600

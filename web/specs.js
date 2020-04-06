@@ -111,11 +111,11 @@ exports.inputs = {
                                 'title': 'Remote files'
                             },
                             {
-                                'value': 'Database',
+                                'value': 'DataBase',
                                 'title': 'Database'
                             },
                             {
-                                'value': 'Website',
+                                'value': 'WebSite',
                                 'title': 'Website'
                             },
                             {
