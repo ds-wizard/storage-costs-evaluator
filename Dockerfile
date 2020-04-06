@@ -5,7 +5,7 @@ WORKDIR /srv
 RUN apt-get update && apt-get -qq -y install sassc
 
 COPY dist dist
-COPY .stack-work/install/x86_64-linux/lts-12.5/8.4.3/bin/storage-costs-evaluator storage-costs-evaluator
+COPY ./storage-costs-evaluator storage-costs-evaluator
 
 # Styles rebuilding
 # Dependencies needed to rebuild styles
