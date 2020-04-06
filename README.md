@@ -1,6 +1,6 @@
 # Storage Costs Evaluator
 
-[![Build Status](https://travis-ci.org/ds-wizard/storage-costs-evaluator.svg?branch=master)](https://travis-ci.org/ds-wizard/storage-costs-evaluator)
+[![Storage Costs Evaluator CI](https://github.com/ds-wizard/storage-costs-evaluator/workflows/Storage%20Costs%20Evaluator%20CI/badge.svg)](https://github.com/ds-wizard/storage-costs-evaluator/actions)
 [![License](https://img.shields.io/github/license/ds-wizard/storage-costs-evaluator.svg)](LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/datastewardshipwizard/storage-costs-evaluator.svg)](https://hub.docker.com/r/datastewardshipwizard/storage-costs-evaluator/)
 
