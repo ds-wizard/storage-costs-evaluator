@@ -8,10 +8,22 @@ Simple JSON service for evaluating costs long-term data storage. Calculation mad
 
 ## Install and run
 
+### Using Docker
+
+There is a published Docker image [datastewardshipwizard/storage-costs-evaluator](https://hub.docker.com/r/datastewardshipwizard/storage-costs-evaluator/)
+
+```console
+docker run -p 3010:3000 datastewardshipwizard/storage-costs-evaluator
+```
+
+(The command above will run Storage Costs Evaluator on you local port 3010.)
+
+### From source
+
 ```console
 stack build
 npm install
-npm run-script build
+npm run build
 stack exec storage-costs-evaluator
 ```
 
