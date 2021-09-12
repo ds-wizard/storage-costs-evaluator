@@ -70,6 +70,7 @@ jobs:
         
     - name: Install frontend dependencies
       run: |
+        sed -i 's/git+ssh/git+https/g' package-lock.json
         npm ci
         
 # (3) -> Build binary
