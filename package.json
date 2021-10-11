@@ -23,7 +23,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
     "bootstrap": "^4.4.1",
-    "bootswatch": "^4.4.1",
+    "bootswatch": "^5.1.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "ejs": "^3.0.2",
