@@ -64,7 +64,7 @@ jobs:
         stack build --no-terminal --install-ghc --test --only-dependencies
 
     - name: Setup Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2.5.0
       with:
         node-version: ${{ env.NODE_VERSION }}
         
