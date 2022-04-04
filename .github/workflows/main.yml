@@ -30,7 +30,7 @@ jobs:
 # (1) -> Setup cache
     - name: Cache ~/.stack
       id: cache-stack
-      uses: actions/cache@v1
+      uses: actions/cache@v3.0.1
       with:
         path: ~/.stack
         key: stack-home-ubuntu20-${{ hashFiles('**/stack.yaml.lock') }}
@@ -39,7 +39,7 @@ jobs:
     
     - name: Cache .stack-work
       id: cache-stack-work
-      uses: actions/cache@v1
+      uses: actions/cache@v3.0.1
       with:
         path: .stack-work
         key: stack-work-ubuntu20-${{ hashFiles('**/*.hs') }}
@@ -48,7 +48,7 @@ jobs:
     
     - name: Cache Stack in ~/.local/bin
       id: cache-stack-local-bin
-      uses: actions/cache@v1
+      uses: actions/cache@v3.0.1
       with:
         path: ~/.local/bin
         key: stack-local-bin-${{ matrix.stack }}-ubuntu20
